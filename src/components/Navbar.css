@@ -1,0 +1,70 @@
+/* Navbar container */
+.navbar {
+  width: 100%;
+  max-width: 100vw;          /* ✅ prevent horizontal overflow */
+  box-sizing: border-box;    /* ✅ include padding in width */
+  height: 64px;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Logo */
+.nav-logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+/* Links container */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+
+  flex-wrap: wrap;        /* ✅ Wrap links if they don't fit */
+  overflow-x: auto;       /* ✅ Optional: horizontal scroll if too many links */
+  scrollbar-width: none;  /* hide scrollbar Firefox */
+}
+
+.nav-links::-webkit-scrollbar {
+  display: none;          /* hide scrollbar Chrome/Safari */
+}
+
+/* Individual link */
+.nav-links li a {
+  text-decoration: none;
+  color: #e5e7eb;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.3s, transform 0.2s;
+  display: inline-flex;   /* ✅ align text properly */
+  align-items: center;    /* ✅ vertical center */
+}
+
+/* Hover effect */
+.nav-links li a:hover {
+  color: #22c55e;
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-links {
+    gap: 16px;            /* smaller gap on mobile */
+  }
+
+  .nav-logo {
+    font-size: 18px;      /* slightly smaller logo */
+  }
+}

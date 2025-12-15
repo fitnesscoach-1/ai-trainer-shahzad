@@ -1,0 +1,110 @@
+/* Full screen gradient background */
+.landing {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: "Inter", "Poppins", sans-serif;
+}
+
+/* Glassmorphism card */
+.landing-card {
+  max-width: 820px;
+  padding: 60px 50px;
+  text-align: center;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Logo / Heading */
+.logo {
+  font-size: 48px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+/* Description */
+.tagline {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #e0eaf0;
+  margin-bottom: 40px;
+}
+
+/* Buttons wrapper */
+.buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;              /* ✅ FIX */
+  flex-wrap: wrap;
+}
+
+/* Fix Link (<a>) alignment */
+.buttons a {
+  display: inline-flex;
+  align-items: center;              /* ✅ FIX */
+  text-decoration: none;
+}
+
+/* Base button */
+.btn {
+  min-width: 160px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  text-align: center;
+  display: inline-flex;             /* ✅ FIX */
+  align-items: center;              /* ✅ FIX */
+  justify-content: center;           /* ✅ FIX */
+}
+
+/* Primary button */
+.btn.primary {
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  color: #0f2027;
+}
+
+.btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(79, 172, 254, 0.45);
+}
+
+/* Secondary button */
+.btn.secondary {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .logo {
+    font-size: 36px;
+  }
+
+  .tagline {
+    font-size: 16px;
+  }
+
+  .landing-card {
+    padding: 40px 25px;
+  }
+}

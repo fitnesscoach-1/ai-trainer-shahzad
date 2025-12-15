@@ -1,0 +1,197 @@
+/* Page background */
+.bmi-page {
+  min-height: 100vh;
+  padding: 100px 20px;
+  background: radial-gradient(circle at top, #0f2027, #020617);
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* Main heading */
+.bmi-page h1 {
+  font-size: 42px;
+  margin-bottom: 6px;
+  background: linear-gradient(90deg, #22d3ee, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 15px;
+  opacity: 0.85;
+  margin-bottom: 40px;
+  color: #94a3b8;
+}
+
+/* Glassmorphic card */
+.bmi-card.full-bg {
+  width: 100%;
+  max-width: 520px;
+  padding: 30px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 0 40px rgba(34, 211, 238, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: fadeUp 0.6s ease-in-out;
+  color: #e5e7eb;
+  min-height: 350px; /* space for buttons */
+  justify-content: space-between;
+}
+
+/* Input groups */
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-size: 12px;
+  margin-bottom: 6px;
+  color: #94a3b8;
+  letter-spacing: 0.4px;
+}
+
+/* Inputs & selects */
+.field input,
+.field select {
+  background: rgba(2, 6, 23, 0.9);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: #e5e7eb;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.field input::placeholder {
+  color: #64748b;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #22d3ee;
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.45);
+}
+
+/* Row layout */
+.field-row {
+  display: flex;
+  gap: 12px;
+}
+
+.field-row .field {
+  flex: 1;
+}
+
+/* Button */
+.bmi-card button {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #020617;
+  background: linear-gradient(90deg, #22d3ee, #22c55e);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.45);
+}
+
+.bmi-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.7);
+}
+
+.bmi-card button:active {
+  transform: scale(0.98);
+}
+
+/* Result buttons container */
+.result-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+/* Different colors for Reset / Download / Copy */
+.result-buttons-container .reset-btn {
+  background: linear-gradient(90deg, #f43f5e, #e11d48);
+  color: #fff;
+}
+
+.result-buttons-container .download-btn {
+  background: linear-gradient(90deg, #22d3ee, #3b82f6);
+  color: #fff;
+}
+
+.result-buttons-container .copy-btn {
+  background: linear-gradient(90deg, #fde68a, #facc15);
+  color: #020617;
+}
+
+.result-buttons-container button {
+  padding: 14px 24px;
+  min-height: 48px;
+  border-radius: 12px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.45);
+  transition: all 0.3s ease;
+}
+
+.result-buttons-container button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.7);
+}
+
+.result-buttons-container button:active {
+  transform: scale(0.98);
+}
+
+/* Animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .bmi-page h1 {
+    font-size: 36px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .bmi-card.full-bg {
+    padding: 25px;
+  }
+
+  .result-buttons-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

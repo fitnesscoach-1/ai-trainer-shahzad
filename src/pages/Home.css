@@ -1,0 +1,158 @@
+/* Page background */
+.home-page {
+  min-height: 100vh;
+  padding: 100px 20px 80px;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #e5e7eb;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+  max-width: 900px;
+  margin: 0 auto 70px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 44px;
+  margin-bottom: 14px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #38bdf8, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-text {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-bottom: 34px;
+}
+
+/* Hero buttons */
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 14px 26px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.primary-btn {
+  background: linear-gradient(90deg, #22c55e, #a3e635);
+  color: #022c22;
+  box-shadow: 0 0 24px rgba(163, 230, 53, 0.45);
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 34px rgba(163, 230, 53, 0.7);
+}
+
+.secondary-btn {
+  background: rgba(2, 6, 23, 0.6);
+  color: #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.secondary-btn:hover {
+  background: rgba(2, 6, 23, 0.85);
+}
+
+/* ================= QUICK ACTIONS ================= */
+
+.quick-actions {
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+/* Action cards */
+.action-card {
+  padding: 28px;
+  border-radius: 22px;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 0 30px rgba(56, 189, 248, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 0 40px rgba(56, 189, 248, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.action-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #7dd3fc;
+}
+
+.action-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-bottom: 18px;
+}
+
+.action-card a {
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #38bdf8;
+}
+
+.action-card a:hover {
+  text-decoration: underline;
+}
+
+/* ================= VALUE SECTION ================= */
+
+.value {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.value h2 {
+  font-size: 32px;
+  margin-bottom: 14px;
+  background: linear-gradient(90deg, #a78bfa, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.value p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #cbd5e1;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero-text {
+    font-size: 16px;
+  }
+}
