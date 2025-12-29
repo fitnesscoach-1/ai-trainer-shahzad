@@ -1,0 +1,163 @@
+/* ================= HOME HERO BACKGROUND ================= */
+.home-hero-bg {
+  min-height: 100vh;
+  width: 100%;
+
+  /* ❌ REMOVED DARK OVERLAY */
+  background-image: url("../assets/ai-trainer.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= CONTENT OVERLAY ================= */
+.home-hero-content {
+  width: 100%;
+  max-width: 1200px;
+  padding: 120px 40px;
+  color: #ffffff;
+}
+
+/* ================= HEADER ================= */
+.home-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.home-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+
+  /* 🌑 Dark elegant gradient */
+  background: linear-gradient(
+    135deg,
+    #0f172a,  /* deep slate */
+    #1e293b,  /* dark blue-gray */
+    #020617   /* near-black */
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  letter-spacing: 0.6px;
+}
+
+
+.home-header p {
+  margin-top: 10px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  opacity: 0.85;
+  color: black;
+}
+
+/* ================= RUNNING TEXT ================= */
+.running-text {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 22px;
+}
+
+.running-text-track {
+  display: flex;
+  gap: 60px;
+  width: max-content;
+  animation: scroll-text 80s linear infinite;
+}
+
+/* ================= QUOTES (BASE) ================= */
+.home-header .quote {
+  font-size: 1.1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.4px;
+  opacity: 0.95;
+}
+
+/* ================= AI QUOTES ================= */
+.home-header .quote.ai {
+  color: #0c272b;
+  font-weight: 800;
+  text-shadow: 0 0 12px rgba(4, 20, 22, 0.45);
+}
+
+.home-header .quote.ai:nth-of-type(1) { color: #081216; }
+.home-header .quote.ai:nth-of-type(2) { color: #081113; }
+.home-header .quote.ai:nth-of-type(3) { color: #0c1a20; }
+.home-header .quote.ai:nth-of-type(4) { color: #0a191b; }
+.home-header .quote.ai:nth-of-type(5) { color: #081618; }
+
+/* ================= REAL WORLD QUOTES ================= */
+.home-header .quote.real {
+  color: #29230d;
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
+}
+
+.home-header .quote.real:nth-of-type(1) { color: #f97316; }
+.home-header .quote.real:nth-of-type(2) { color: #fb7185; }
+.home-header .quote.real:nth-of-type(3) { color: #f43f5e; }
+.home-header .quote.real:nth-of-type(4) { color: #fb923c; }
+.home-header .quote.real:nth-of-type(5) { color: #fde047; }
+
+/* ================= ANIMATION ================= */
+@keyframes scroll-text {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ================= GRID ================= */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 26px;
+  margin-top: 50px;
+}
+
+/* ================= CARD ================= */
+.home-card {
+  background: rgba(255, 255, 255, 0.52);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  padding: 28px;
+  color: black;
+  text-decoration: none;
+
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.home-card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.home-card h3 {
+  font-size: 1.3rem;
+}
+
+.home-card p {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .home-hero-content {
+    padding: 100px 20px;
+  }
+
+  .home-header h1 {
+    font-size: 2.3rem;
+  }
+
+  .home-header .quote {
+    font-size: 0.95rem;
+  }
+}
