@@ -1,8 +1,24 @@
 /* =========================
+   GOOGLE FONT IMPORT
+========================= */
+@import url("https://fonts.googleapis.com/css2?family=Edu+SA+Beginner:wght@400;500;600;700&display=swap");
+
+/* =========================
+   GLOBAL FULL HEIGHT FIX
+========================= */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+/* =========================
    SIGNUP PAGE (BACKGROUND)
 ========================= */
 .signup-page {
-  min-height: 70vh;
+  min-height: 100vh;
+  width: 100%;
   padding: 64px 20px 40px;
 
   background-image: url("../assets/landing-page.png");
@@ -10,32 +26,94 @@
   background-position: center;
   background-repeat: no-repeat;
 
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-family: "Inter", "Poppins", system-ui, sans-serif;
+  /* ✅ UPDATED FONT */
+  font-family: "Edu SA Beginner", "Inter", "Poppins", system-ui, sans-serif;
 }
 
 /* =========================
-   SIGNUP CARD (GLASSMORPHISM)
+   DARK OVERLAY
+========================= */
+.signup-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+}
+
+/* =========================
+   SIGNUP CARD (GLASS BASE)
 ========================= */
 .signup-card {
   width: 100%;
-  max-width: 520px;              /* Wider for signup */
+  max-width: 520px;
   padding: 44px 40px;
 
   border-radius: 22px;
   text-align: center;
 
-  background: rgba(20, 30, 40, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(15, 25, 35, 0.15);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
 
   color: #ffffff;
+
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+
+  /* ✅ ENSURE FONT INSIDE CARD */
+  font-family: "Edu SA Beginner", "Inter", "Poppins", system-ui, sans-serif;
+}
+
+/* =========================
+   BORDER COLOR FLOW ANIMATION
+========================= */
+.signup-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    #00f2fe,
+    #4facfe,
+    #7c4dff,
+    #ff4ecd,
+    #00f2fe
+  );
+
+  background-size: 400% 100%;
+  animation: borderFlow 12s linear infinite;
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* =========================
+   BORDER FLOW ANIMATION
+========================= */
+@keyframes borderFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 400% 50%;
+  }
 }
 
 /* =========================
@@ -82,11 +160,10 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  align-items: stretch;
 }
 
 /* =========================
-   NAME ROW (FIRST + LAST)
+   NAME ROW
 ========================= */
 .row {
   display: grid;
@@ -106,7 +183,7 @@
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.3);
 
-  background: rgba(10, 20, 30, 0.8);
+  background: rgba(10, 20, 30, 0.75);
   color: #ffffff;
 
   font-size: 14px;
@@ -123,7 +200,6 @@
   cursor: pointer;
 }
 
-/* Focus */
 .signup-card input:focus,
 .signup-card select:focus {
   border-color: #4facfe;
@@ -131,27 +207,26 @@
 }
 
 /* =========================
-   PHONE INPUT
+   PHONE INPUT (react-phone-input-2)
 ========================= */
 .phone-wrapper {
   width: 100%;
 }
 
-/* Override react-phone-input-2 */
 .phone-wrapper .react-tel-input .form-control {
   width: 100%;
   height: 48px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.3);
 
-  background: rgba(10, 20, 30, 0.8);
+  background: rgba(10, 20, 30, 0.75);
   color: #ffffff;
 
   font-size: 14px;
 }
 
 .phone-wrapper .react-tel-input .flag-dropdown {
-  background: rgba(10, 20, 30, 0.8);
+  background: rgba(10, 20, 30, 0.75);
   border: none;
 }
 
@@ -218,7 +293,6 @@
 ========================= */
 @media (max-width: 768px) {
   .signup-page {
-    min-height: auto;
     padding: 80px 16px 40px;
   }
 
@@ -233,4 +307,3 @@
 .auth-page .navbar {
   display: none;
 }
-

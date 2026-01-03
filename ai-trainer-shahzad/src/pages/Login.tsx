@@ -52,31 +52,8 @@ const Login = () => {
   return (
     <div className="login-page">
       <div className="login-card">
-       
-
         <h1>Welcome Back</h1>
         <p className="subtitle">Login to your account</p>
-
-        {/* SOCIAL LOGIN UI (UI ONLY) */}
-        <button className="social-btn google" type="button">
-          <img
-            src="https://www.svgrepo.com/show/475656/google-color.svg"
-            alt="Google"
-          />
-          Continue with Google
-        </button>
-
-        <button className="social-btn facebook" type="button">
-          <img
-            src="https://www.svgrepo.com/show/475647/facebook-white.svg"
-            alt="Facebook"
-          />
-          Continue with Facebook
-        </button>
-
-        <div className="divider">
-          <span>OR</span>
-        </div>
 
         {/* ERROR */}
         {error && <div className="error">{error}</div>}

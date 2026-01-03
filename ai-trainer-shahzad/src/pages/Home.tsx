@@ -10,10 +10,17 @@ const Home = () => {
           <h1>Welcome to Ai-Trainer-Shahzad 👋</h1>
           <p>Your fitness journey starts here</p>
 
-          {/* ================= RUNNING TEXT ================= */}
+          {/*
+          ================= RUNNING TEXT (TEMPORARILY DISABLED) =================
+          NOTE:
+          - Quotes are NOT deleted
+          - Logic is preserved
+          - Safe to re-enable anytime
+          */}
+          
+          {/*
           <div className="running-text">
             <div className="running-text-track">
-              {/* ===== AI WORLD QUOTES ===== */}
               <h2 className="quote ai">
                 🤖 Your body is data, your habits are algorithms — train both intelligently.
               </h2>
@@ -30,7 +37,6 @@ const Home = () => {
                 🔮 When intelligence meets discipline, transformation becomes inevitable.
               </h2>
 
-              {/* ===== REAL WORLD QUOTES ===== */}
               <h2 className="quote real">
                 💪 Your body achieves what your mind decides to never give up on.
               </h2>
@@ -47,7 +53,6 @@ const Home = () => {
                 🏆 Strength isn’t built in comfort — it’s built in commitment.
               </h2>
 
-              {/* ===== DUPLICATE FOR SMOOTH LOOP ===== */}
               <h2 className="quote ai">
                 🤖 Your body is data, your habits are algorithms — train both intelligently.
               </h2>
@@ -56,6 +61,7 @@ const Home = () => {
               </h2>
             </div>
           </div>
+          */}
         </header>
 
         {/* ================= FEATURE GRID ================= */}

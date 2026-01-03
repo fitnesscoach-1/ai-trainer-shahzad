@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import Select from "react-select";
 import { Country } from "country-state-city";
 import "./Signup.css";
 
@@ -34,13 +35,23 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
 
   /* =========================
-     HANDLE INPUT CHANGE
+     COUNTRY OPTIONS (FLAG + NAME)
   ========================= */
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const countryOptions = countries.map((c) => ({
+    value: c.name,
+    label: (
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <img
+          src={`https://flagcdn.com/w20/${c.isoCode.toLowerCase()}.png`}
+          alt={c.name}
+          width={20}
+          height={14}
+          style={{ borderRadius: 2 }}
+        />
+        <span>{c.name}</span>
+      </div>
+    ),
+  }));
 
   /* =========================
      SUBMIT FORM
@@ -80,7 +91,9 @@ const Signup = () => {
               name="first_name"
               value={form.first_name}
               placeholder="First Name"
-              onChange={handleChange}
+              onChange={(e) =>
+                setForm({ ...form, first_name: e.target.value })
+              }
               autoComplete="given-name"
               required
             />
@@ -88,7 +101,9 @@ const Signup = () => {
               name="last_name"
               value={form.last_name}
               placeholder="Last Name"
-              onChange={handleChange}
+              onChange={(e) =>
+                setForm({ ...form, last_name: e.target.value })
+              }
               autoComplete="family-name"
               required
             />
@@ -100,7 +115,9 @@ const Signup = () => {
             name="email"
             value={form.email}
             placeholder="Email Address"
-            onChange={handleChange}
+            onChange={(e) =>
+              setForm({ ...form, email: e.target.value })
+            }
             autoComplete="email"
             required
           />
@@ -110,26 +127,75 @@ const Signup = () => {
             name="username"
             value={form.username}
             placeholder="Username"
-            onChange={handleChange}
+            onChange={(e) =>
+              setForm({ ...form, username: e.target.value })
+            }
             autoComplete="username"
             required
           />
 
-          {/* COUNTRY */}
-          <select
-            name="country"
-            value={form.country}
-            onChange={handleChange}
-            autoComplete="country"
-            required
-          >
-            <option value="">Select Country</option>
-            {countries.map((c) => (
-              <option key={c.isoCode} value={c.name}>
-                {c.name}
-              </option>
-            ))}
-          </select>
+          {/* COUNTRY (FLAG + NAME, PROPERLY ALIGNED) */}
+          <div className="select-wrapper">
+            <Select
+              options={countryOptions}
+              placeholder="🌍 Select Country"
+              onChange={(option: any) =>
+                setForm({ ...form, country: option.value })
+              }
+              styles={{
+                control: (base, state) => ({
+                  ...base,
+                  minHeight: "48px",
+                  height: "48px",
+                  backgroundColor: "rgba(10, 20, 30, 0.75)",
+                  borderRadius: "12px",
+                  borderColor: state.isFocused
+                    ? "#4facfe"
+                    : "rgba(255, 255, 255, 0.3)",
+                  boxShadow: state.isFocused
+                    ? "0 0 0 3px rgba(79, 172, 254, 0.25)"
+                    : "none",
+                }),
+                valueContainer: (base) => ({
+                  ...base,
+                  height: "48px",
+                  padding: "0 12px",
+                }),
+                singleValue: (base) => ({
+                  ...base,
+                  color: "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }),
+                placeholder: (base) => ({
+                  ...base,
+                  color: "#b9c8d3",
+                }),
+                input: (base) => ({
+                  ...base,
+                  color: "#ffffff",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "#0f172a",
+                  borderRadius: "12px",
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  backgroundColor: state.isFocused
+                    ? "rgba(79, 172, 254, 0.15)"
+                    : "transparent",
+                  color: "#ffffff",
+                  padding: "10px 14px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  cursor: "pointer",
+                }),
+              }}
+            />
+          </div>
 
           {/* PHONE */}
           <div className="phone-wrapper">
@@ -145,7 +211,6 @@ const Signup = () => {
                 required: true,
                 autoComplete: "tel",
               }}
-              inputStyle={{ width: "100%" }}
             />
           </div>
 
@@ -154,7 +219,9 @@ const Signup = () => {
             name="address"
             value={form.address}
             placeholder="Address"
-            onChange={handleChange}
+            onChange={(e) =>
+              setForm({ ...form, address: e.target.value })
+            }
             autoComplete="street-address"
             required
           />
@@ -164,7 +231,9 @@ const Signup = () => {
             name="zip_code"
             value={form.zip_code}
             placeholder="Zip Code"
-            onChange={handleChange}
+            onChange={(e) =>
+              setForm({ ...form, zip_code: e.target.value })
+            }
             autoComplete="postal-code"
           />
 
@@ -174,7 +243,9 @@ const Signup = () => {
             name="password"
             value={form.password}
             placeholder="Password"
-            onChange={handleChange}
+            onChange={(e) =>
+              setForm({ ...form, password: e.target.value })
+            }
             autoComplete="new-password"
             required
           />
