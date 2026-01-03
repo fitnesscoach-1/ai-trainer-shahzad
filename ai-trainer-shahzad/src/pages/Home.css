@@ -11,12 +11,10 @@
   min-height: 100vh;
   width: 100%;
   position: relative;
-
   background-image: url("../assets/home-background.png");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,7 +54,6 @@
 .home-header h1 {
   font-size: 3.3rem;
   font-weight: 700;
-
   background: linear-gradient(
     270deg,
     #22d3ee,
@@ -65,22 +62,17 @@
     #a78bfa,
     #22d3ee
   );
-
   background-size: 400% 400%;
-
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-
   letter-spacing: 1.2px;
   animation: ai-gradient-flow-h1 8s ease infinite;
-
   text-shadow:
     0 0 25px rgba(56, 189, 248, 0.55),
     0 0 45px rgba(129, 140, 248, 0.35);
 }
 
-/* ================= H1 ANIMATION ================= */
 @keyframes ai-gradient-flow-h1 {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -92,7 +84,6 @@
   margin-top: 18px;
   font-size: 1.9rem;
   font-weight: 600;
-
   background: linear-gradient(
     270deg,
     #ffffff,
@@ -101,80 +92,22 @@
     #bae6fd,
     #ffffff
   );
-
   background-size: 500% 500%;
-
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-
   letter-spacing: 0.9px;
   animation: ai-gradient-flow-p 10s ease infinite;
-
   text-shadow:
     0 0 14px rgba(0, 0, 0, 0.9),
     0 0 26px rgba(255, 255, 255, 0.45);
 }
 
-/* ================= PARAGRAPH ANIMATION ================= */
 @keyframes ai-gradient-flow-p {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
-/* ================================================================= */
-/* 🔒 RUNNING TEXT & QUOTES — SAFELY DISABLED (NOT DELETED) */
-/* ================================================================= */
-
-/*
-.running-text {
-  width: 100%;
-  max-width: 720px;
-  height: 40px;
-  margin: 30px auto 0;
-  overflow: hidden;
-  position: relative;
-  text-align: center;
-}
-
-.running-text-track {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  animation: vertical-quote-scroll 18s infinite;
-}
-
-.home-header .quote {
-  font-size: 1.1rem;
-  font-weight: 600;
-  white-space: nowrap;
-  line-height: 40px;
-  opacity: 0.95;
-}
-
-.home-header .quote.ai {
-  color: #0c272b;
-  text-shadow: 0 0 12px rgba(4, 20, 22, 0.45);
-}
-
-.home-header .quote.real {
-  color: #29230d;
-  text-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
-}
-
-@keyframes vertical-quote-scroll {
-  0%   { transform: translateY(0); }
-  20%  { transform: translateY(0); }
-  25%  { transform: translateY(-40px); }
-  45%  { transform: translateY(-40px); }
-  50%  { transform: translateY(-80px); }
-  70%  { transform: translateY(-80px); }
-  75%  { transform: translateY(-120px); }
-  95%  { transform: translateY(-120px); }
-  100% { transform: translateY(0); }
-}
-*/
 
 /* ================= GRID ================= */
 .home-grid {
@@ -192,24 +125,18 @@
   width: 210px;
   height: 360px;
   padding: 20px 18px;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-
   border-radius: 20px;
   text-decoration: none;
   color: #eafcff;
-
   background: rgba(5, 15, 30, 0.35);
   backdrop-filter: blur(20px);
-
   border: 2px solid rgba(120, 220, 255, 0.85);
-
   box-shadow:
     0 0 35px rgba(120, 220, 255, 0.55),
     inset 0 0 30px rgba(120, 220, 255, 0.25);
-
   transition: transform 0.45s ease, box-shadow 0.45s ease;
   overflow: hidden;
 }
@@ -250,10 +177,60 @@
   transform: translateY(-30px);
 }
 
+/* ===================================================== */
+/* 🔥 FIRE / LIGHT BEAM EFFECT (NEW, SAFE ADDITION) */
+/* ===================================================== */
+.home-card::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -40%;
+  width: 160%;
+  height: 120%;
+  transform: translateX(-50%);
+
+  background: linear-gradient(
+    to top,
+    rgba(255, 120, 0, 0.85),
+    rgba(255, 180, 0, 0.65),
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+
+  filter: blur(28px);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 🔥 Fire beam animation */
+@keyframes fire-rise {
+  0% {
+    bottom: -45%;
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    bottom: 100%;
+    opacity: 0;
+  }
+}
+
 /* ================= HOVER ================= */
 .home-card:hover {
   transform: translateY(-12px) scale(1.03);
+  box-shadow:
+    0 0 65px rgba(255, 170, 60, 0.85),
+    inset 0 0 35px rgba(255, 200, 80, 0.35);
 }
+
+/* 🔥 Trigger fire on hover */
+.home-card:hover::after {
+  animation: fire-rise 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {

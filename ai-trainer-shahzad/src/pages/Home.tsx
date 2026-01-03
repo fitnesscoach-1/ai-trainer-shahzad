@@ -1,7 +1,96 @@
 import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import "./Home.css";
 
 const Home = () => {
+  /* ================= AUDIO REFS ================= */
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hasPlayedRef = useRef(false);
+
+  const [muted, setMuted] = useState(true);
+
+  /* ================= INIT AUDIO ================= */
+  useEffect(() => {
+    audioRef.current = new Audio("/assets/audio/background.mp3");
+    audioRef.current.volume = 0;      // start silent (fade-in)
+    audioRef.current.loop = false;
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, []);
+
+  /* ================= FADE IN ================= */
+  const fadeIn = () => {
+    if (!audioRef.current) return;
+
+    let volume = 0;
+    audioRef.current.volume = 0;
+
+    const interval = setInterval(() => {
+      volume += 0.05;
+      if (audioRef.current) {
+        audioRef.current.volume = Math.min(volume, 0.7);
+      }
+      if (volume >= 0.7) clearInterval(interval);
+    }, 50);
+  };
+
+  /* ================= FADE OUT ================= */
+  const fadeOut = () => {
+    if (!audioRef.current) return;
+
+    let volume = audioRef.current.volume;
+
+    const interval = setInterval(() => {
+      volume -= 0.05;
+      if (audioRef.current) {
+        audioRef.current.volume = Math.max(volume, 0);
+      }
+      if (volume <= 0) {
+        audioRef.current?.pause();
+        clearInterval(interval);
+      }
+    }, 50);
+  };
+
+  /* ================= PLAY ON FIRST INTERACTION ================= */
+  const handleFirstInteraction = () => {
+    if (!audioRef.current || hasPlayedRef.current || muted) return;
+
+    hasPlayedRef.current = true;
+    audioRef.current.play().catch(() => {});
+    fadeIn();
+
+    // Remove listener after first play
+    window.removeEventListener("click", handleFirstInteraction);
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleFirstInteraction);
+    return () => window.removeEventListener("click", handleFirstInteraction);
+  }, [muted]);
+
+  /* ================= TOGGLE MUTE ================= */
+  const toggleMute = () => {
+    if (!audioRef.current) return;
+
+    if (muted) {
+      setMuted(false);
+      if (!hasPlayedRef.current) {
+        hasPlayedRef.current = true;
+        audioRef.current.play().catch(() => {});
+      }
+      fadeIn();
+    } else {
+      setMuted(true);
+      fadeOut();
+    }
+  };
+
   return (
     <div className="home-hero-bg">
       <div className="home-hero-content">
@@ -9,60 +98,27 @@ const Home = () => {
         <header className="home-header">
           <h1>Welcome to Ai-Trainer-Shahzad 👋</h1>
           <p>Your fitness journey starts here</p>
-
-          {/*
-          ================= RUNNING TEXT (TEMPORARILY DISABLED) =================
-          NOTE:
-          - Quotes are NOT deleted
-          - Logic is preserved
-          - Safe to re-enable anytime
-          */}
-          
-          {/*
-          <div className="running-text">
-            <div className="running-text-track">
-              <h2 className="quote ai">
-                🤖 Your body is data, your habits are algorithms — train both intelligently.
-              </h2>
-              <h2 className="quote ai">
-                ⚡ The future of fitness isn’t harder — it’s smarter.
-              </h2>
-              <h2 className="quote ai">
-                🧠 AI doesn’t replace effort; it amplifies the effort you’re willing to give.
-              </h2>
-              <h2 className="quote ai">
-                🚀 Smart training today builds a stronger, optimized you tomorrow.
-              </h2>
-              <h2 className="quote ai">
-                🔮 When intelligence meets discipline, transformation becomes inevitable.
-              </h2>
-
-              <h2 className="quote real">
-                💪 Your body achieves what your mind decides to never give up on.
-              </h2>
-              <h2 className="quote real">
-                🔥 Discipline will take you where motivation cannot.
-              </h2>
-              <h2 className="quote real">
-                🏃 Small workouts done consistently beat perfect plans done rarely.
-              </h2>
-              <h2 className="quote real">
-                ⏳ Train today so the future version of you can thank you.
-              </h2>
-              <h2 className="quote real">
-                🏆 Strength isn’t built in comfort — it’s built in commitment.
-              </h2>
-
-              <h2 className="quote ai">
-                🤖 Your body is data, your habits are algorithms — train both intelligently.
-              </h2>
-              <h2 className="quote real">
-                💪 Your body achieves what your mind decides to never give up on.
-              </h2>
-            </div>
-          </div>
-          */}
         </header>
+
+        {/* ================= SOUND TOGGLE ================= */}
+        <button
+          onClick={toggleMute}
+          style={{
+            position: "fixed",
+            bottom: "24px",
+            right: "24px",
+            zIndex: 999,
+            background: "rgba(0,0,0,0.5)",
+            color: "#fff",
+            border: "1px solid rgba(255,255,255,0.4)",
+            borderRadius: "50px",
+            padding: "10px 16px",
+            cursor: "pointer",
+            backdropFilter: "blur(8px)"
+          }}
+        >
+          {muted ? "🔇 Sound Off" : "🔊 Sound On"}
+        </button>
 
         {/* ================= FEATURE GRID ================= */}
         <div className="home-grid">

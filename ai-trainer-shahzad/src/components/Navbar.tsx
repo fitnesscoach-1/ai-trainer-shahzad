@@ -23,17 +23,31 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* CENTER — MAIN NAV */}
+      {/* CENTER — MAIN NAV (ORDER FIXED) */}
       <div className="navbar-center">
         <Link to="/" className="nav-link">Home</Link>
-        <Link to="/diet" className="nav-link">Diet</Link>
-        <Link to="/contact" className="nav-link">Contact</Link>
+
+        <Link to="/workouts" className="nav-link">
+          Workout
+        </Link>
+
+        <Link to="/diet" className="nav-link">
+          Diet
+        </Link>
+
+        <Link to="/contact" className="nav-link">
+          Contact
+        </Link>
 
         {user && (
           <>
-            <Link to="/workouts" className="nav-link">Workout</Link>
-            <Link to="/workout-history" className="nav-link">Workout History</Link>
-            <Link to="/diet-history" className="nav-link">Diet History</Link>
+            <Link to="/workout-history" className="nav-link">
+              Workout History
+            </Link>
+
+            <Link to="/diet-history" className="nav-link">
+              Diet History
+            </Link>
           </>
         )}
       </div>

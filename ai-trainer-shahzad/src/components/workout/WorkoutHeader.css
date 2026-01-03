@@ -1,0 +1,30 @@
+.workout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.workout-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.workout-streak {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 30px;
+  background: rgba(255, 100, 0, 0.15);
+  border: 1px solid rgba(255, 140, 0, 0.4);
+  color: #ffb703;
+  font-weight: 600;
+}
+
+.workout-streak .status {
+  color: #ff6a00;
+  font-weight: 700;
+}

@@ -6,11 +6,15 @@ import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import Navbar from "./components/Navbar";
+
 import Workout from "./pages/Workout";
-import WorkoutHistory from "./pages/WorkoutHistory";
+import WorkoutHistory from "./pages/Workouthistory";
 import Diet from "./pages/Diet";
 import DietHistory from "./pages/DietHistory";
-import Contact from "./pages/Contact"; // ✅ NEW
+import Contact from "./pages/Contact";
+
+// ✅ AI WORKOUT GENERATOR PAGE (ADD THIS IMPORT)
+import AIWorkoutGenerator from "./pages/AIWorkoutGenerator";
 
 function App() {
   return (
@@ -23,9 +27,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* ✅ PUBLIC PAGES */}
+        {/* ================= PUBLIC PAGES ================= */}
         <Route path="/diet" element={<Diet />} />
-        <Route path="/contact" element={<Contact />} /> {/* ✅ CONNECTED */}
+        <Route path="/contact" element={<Contact />} />
 
         {/* ================= USER ROUTES ================= */}
         <Route
@@ -37,6 +41,7 @@ function App() {
           }
         />
 
+        {/* 🔥 WORKOUT DASHBOARD (CARDS PAGE) */}
         <Route
           path="/workouts"
           element={
@@ -46,6 +51,17 @@ function App() {
           }
         />
 
+        {/* 🔥 AI WORKOUT GENERATOR (FORM PAGE) */}
+        <Route
+          path="/ai-workout-generator"
+          element={
+            <ProtectedRoute>
+              <AIWorkoutGenerator />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= HISTORY ROUTES ================= */}
         <Route
           path="/workout-history"
           element={
@@ -64,6 +80,7 @@ function App() {
           }
         />
 
+        {/* ================= PROFILE ================= */}
         <Route
           path="/profile"
           element={
