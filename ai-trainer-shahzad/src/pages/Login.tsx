@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axios";
 import "./Login.css";
@@ -10,6 +10,14 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  /* ✅ HIDE NAVBAR ON LOGIN PAGE */
+  useEffect(() => {
+    document.body.classList.add("auth-page");
+    return () => {
+      document.body.classList.remove("auth-page");
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (loading) return;
@@ -19,7 +27,7 @@ const Login = () => {
 
     try {
       const formData = new URLSearchParams();
-      formData.append("username", identifier.trim()); // email OR username
+      formData.append("username", identifier.trim());
       formData.append("password", password.trim());
 
       const res = await api.post("/login", formData, {
@@ -28,11 +36,7 @@ const Login = () => {
         },
       });
 
-      // ✅ Save token
       localStorage.setItem("token", res.data.access_token);
-
-      // ✅ FORCE APP RE-INITIALIZATION
-      // This ensures auth state is refreshed immediately
       window.location.replace("/");
     } catch (err: any) {
       if (!err.response) {
@@ -48,8 +52,7 @@ const Login = () => {
   return (
     <div className="login-page">
       <div className="login-card">
-        {/* LOGO */}
-        <div className="logo">⚛️</div>
+       
 
         <h1>Welcome Back</h1>
         <p className="subtitle">Login to your account</p>

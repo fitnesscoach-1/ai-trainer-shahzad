@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import PhoneInput from "react-phone-input-2";
@@ -10,6 +10,14 @@ const Signup = () => {
   const navigate = useNavigate();
   const countries = Country.getAllCountries();
 
+  /* ✅ HIDE NAVBAR ON SIGNUP PAGE */
+  useEffect(() => {
+    document.body.classList.add("auth-page");
+    return () => {
+      document.body.classList.remove("auth-page");
+    };
+  }, []);
+
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -17,6 +25,7 @@ const Signup = () => {
     email: "",
     country: "",
     phone: "",
+    address: "",
     zip_code: "",
     password: "",
   });
@@ -139,6 +148,16 @@ const Signup = () => {
               inputStyle={{ width: "100%" }}
             />
           </div>
+
+          {/* ADDRESS */}
+          <input
+            name="address"
+            value={form.address}
+            placeholder="Address"
+            onChange={handleChange}
+            autoComplete="street-address"
+            required
+          />
 
           {/* ZIP */}
           <input

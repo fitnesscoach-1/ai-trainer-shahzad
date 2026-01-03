@@ -1,9 +1,26 @@
 import { Link } from "react-router-dom";
 import "./Landing.css";
 
+/* ✅ IMPORT BACKGROUND IMAGE (Vite-safe) */
+import landingBg from "../assets/landing-page.png";
+
 export default function Landing() {
   return (
-    <div className="landing">
+    <div
+      className="landing"
+      /* ✅ APPLY BACKGROUND IMAGE INLINE */
+      style={{
+        backgroundImage: `
+          linear-gradient(
+            135deg,
+            rgba(15, 32, 39, 0.85),
+            rgba(32, 58, 67, 0.85),
+            rgba(44, 83, 100, 0.85)
+          ),
+          url(${landingBg})
+        `
+      }}
+    >
       <div className="landing-card">
         <h1 className="logo">AI Trainer Shahzad</h1>
 

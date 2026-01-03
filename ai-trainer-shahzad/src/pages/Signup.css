@@ -1,54 +1,77 @@
 /* =========================
-   PAGE
+   SIGNUP PAGE (BACKGROUND)
 ========================= */
 .signup-page {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  min-height: 70vh;
+  padding: 64px 20px 40px;
+
+  background-image: url("../assets/landing-page.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 24px;
+  justify-content: center;
+
   font-family: "Inter", "Poppins", system-ui, sans-serif;
 }
 
 /* =========================
-   CARD
+   SIGNUP CARD (GLASSMORPHISM)
 ========================= */
 .signup-card {
   width: 100%;
-  max-width: 520px;
-  padding: 32px;
+  max-width: 520px;              /* Wider for signup */
+  padding: 44px 40px;
 
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border-radius: 22px;
+  text-align: center;
 
-  border-radius: 18px;
+  background: rgba(20, 30, 40, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
   color: #ffffff;
+}
 
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* =========================
+   GLOBAL ALIGNMENT FIX
+========================= */
+.signup-card *,
+.signup-card *::before,
+.signup-card *::after {
+  box-sizing: border-box;
 }
 
 /* =========================
    TITLE & SUBTITLE
 ========================= */
 .signup-card h1 {
-  text-align: center;
-  margin-bottom: 6px;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 700;
+  margin-bottom: 6px;
 }
 
-.signup-card p {
-  text-align: center;
-  color: #cbd5e1;
-  margin-bottom: 24px;
+.subtitle {
   font-size: 14px;
+  color: #dbe7ef;
+  margin-bottom: 28px;
+}
+
+/* =========================
+   ERROR
+========================= */
+.error {
+  background: rgba(127, 29, 29, 0.9);
+  color: #fee2e2;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 16px;
 }
 
 /* =========================
@@ -56,25 +79,19 @@
 ========================= */
 .signup-card form {
   width: 100%;
-  max-width: 420px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  align-items: stretch;
 }
 
 /* =========================
-   ROW
+   NAME ROW (FIRST + LAST)
 ========================= */
 .row {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-}
-
-@media (max-width: 600px) {
-  .row {
-    flex-direction: column;
-  }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
 }
 
 /* =========================
@@ -83,87 +100,137 @@
 .signup-card input,
 .signup-card select {
   width: 100%;
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  height: 48px;
+  padding: 0 16px;
 
-  background: rgba(15, 32, 39, 0.65);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  background: rgba(10, 20, 30, 0.8);
   color: #ffffff;
 
-  font-size: 15px;
+  font-size: 14px;
   outline: none;
-  box-sizing: border-box;
-
-  transition: background 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .signup-card input::placeholder {
-  color: #94a3b8;
+  color: #b9c8d3;
 }
 
-/* =========================
-   INPUT FOCUS (WHITE MODE)
-========================= */
+.signup-card select {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Focus */
 .signup-card input:focus,
 .signup-card select:focus {
-  background: #ffffff;
-  color: #111827;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-.signup-card input:focus::placeholder {
-  color: #6b7280;
+  border-color: #4facfe;
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.25);
 }
 
 /* =========================
-   BUTTON
+   PHONE INPUT
 ========================= */
-.signup-card button {
+.phone-wrapper {
   width: 100%;
-  padding: 14px;
-  margin-top: 10px;
+}
 
-  border-radius: 10px;
-  border: none;
+/* Override react-phone-input-2 */
+.phone-wrapper .react-tel-input .form-control {
+  width: 100%;
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: rgba(10, 20, 30, 0.8);
   color: #ffffff;
 
-  font-size: 16px;
+  font-size: 14px;
+}
+
+.phone-wrapper .react-tel-input .flag-dropdown {
+  background: rgba(10, 20, 30, 0.8);
+  border: none;
+}
+
+.phone-wrapper .react-tel-input .selected-flag {
+  background: transparent;
+}
+
+.phone-wrapper .react-tel-input .form-control:focus {
+  border-color: #4facfe;
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.25);
+}
+
+/* =========================
+   SUBMIT BUTTON
+========================= */
+.signup-card button[type="submit"] {
+  margin-top: 10px;
+  height: 48px;
+
+  border-radius: 50px;
+  border: none;
+
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  color: #0f2027;
+
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
 
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
 }
 
-.signup-card button:hover {
+.signup-card button[type="submit"]:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 12px 30px rgba(79, 172, 254, 0.45);
 }
 
-.signup-card button:disabled {
+.signup-card button[type="submit"]:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
 
 /* =========================
-   LOGIN LINK
+   SWITCH LINK
 ========================= */
-.login-link {
-  display: block;
+.switch {
   margin-top: 18px;
-  text-align: center;
-  font-size: 14px;
-  color: #cbd5e1;
-  cursor: pointer;
+  font-size: 13px;
+  color: #dbe7ef;
 }
 
-.login-link:hover {
-  color: #38bdf8;
+.switch a {
+  color: #4facfe;
+  font-weight: 600;
+  text-decoration: none;
 }
+
+.switch a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  .signup-page {
+    min-height: auto;
+    padding: 80px 16px 40px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   HIDE NAVBAR ON AUTH PAGES
+========================= */
+.auth-page .navbar {
+  display: none;
+}
+
