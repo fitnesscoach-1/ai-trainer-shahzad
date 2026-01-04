@@ -1,0 +1,138 @@
+/* ===============================
+   CONTAINER
+================================ */
+.progress-summary {
+  margin-top: 70px;
+  padding: 36px 24px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+  border-radius: 28px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+  color: #eaf6f6;
+  text-align: center;
+}
+
+/* ===============================
+   TITLE
+================================ */
+.progress-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 36px;
+  color: #c7f9ff;
+}
+
+/* ===============================
+   GRID
+================================ */
+.progress-grid {
+  display: flex;
+  justify-content: center;
+  gap: 56px;
+  flex-wrap: wrap;
+}
+
+/* ===============================
+   RING
+================================ */
+.progress-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.progress-ring svg {
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 12;
+}
+
+.ring-progress {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 326;
+  transition: stroke-dashoffset 0.8s ease, stroke 0.4s ease;
+}
+
+/* ===============================
+   LABELS
+================================ */
+.ring-value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.ring-label {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.ring-sub {
+  display: block;
+  font-size: 0.7rem;
+  opacity: 0.65;
+}
+
+/* ===============================
+   TREND
+================================ */
+.trend.up {
+  color: #22c55e;
+}
+.trend.down {
+  color: #ef4444;
+}
+.trend.same {
+  color: #94a3b8;
+}
+
+/* ===============================
+   SCORE UNLOCK ANIMATION
+================================ */
+.score-highlight .ring-value {
+  animation: scorePulse 1.2s ease-out;
+}
+
+@keyframes scorePulse {
+  0% {
+    transform: scale(1);
+    color: #ffffff;
+  }
+  40% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ===============================
+   INSIGHT
+================================ */
+.progress-insight {
+  margin-top: 30px;
+  font-size: 0.95rem;
+  opacity: 0.9;
+  color: #b6f3ff;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .progress-grid {
+    gap: 36px;
+  }
+}

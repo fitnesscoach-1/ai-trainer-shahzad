@@ -5,7 +5,19 @@
   padding: 30px;
   color: #eaf6f6;
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+
+  /* ✅ PUBLIC FOLDER IMAGE (FINAL FIX) */
+  background-image:
+    linear-gradient(
+      rgba(15, 32, 39, 0.88),
+      rgba(32, 58, 67, 0.9),
+      rgba(44, 83, 100, 0.95)
+    ),
+    url("/workout-images/workout/workout-history-card.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .history-page h1 {
@@ -15,7 +27,7 @@
 }
 
 /* =======================
-   TOP TOOLBAR (GMAIL STYLE)
+   TOP TOOLBAR
 ======================= */
 .history-toolbar {
   display: flex;
@@ -68,8 +80,12 @@
   border-radius: 16px;
   padding: 12px;
   overflow-y: auto;
+  backdrop-filter: blur(10px);
 }
 
+/* =======================
+   HISTORY CARD ITEM
+======================= */
 .history-item {
   display: flex;
   gap: 12px;
@@ -78,15 +94,27 @@
   border-radius: 14px;
   cursor: pointer;
   transition: all 0.25s ease;
-  background: rgba(255,255,255,0.08);
+
+  background-image:
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+    url("/workout-images/workout/workout-history-card.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .history-item:hover {
-  background: rgba(255,255,255,0.14);
+  background-image:
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+    url("/workout-images/workout/workout-history-card.png");
 }
 
 .history-item.active {
-  background: linear-gradient(135deg, #1f6f65, #1a5c55);
+  background-image:
+    linear-gradient(rgba(31,111,101,0.85), rgba(26,92,85,0.85)),
+    url("/workout-images/workout/workout-history-card.png");
+
   box-shadow: 0 0 0 1px rgba(46, 169, 157, 0.6);
 }
 
@@ -121,40 +149,11 @@
   border-radius: 18px;
   padding: 22px;
   overflow-y: auto;
-  position: relative;
+  backdrop-filter: blur(10px);
 }
 
 /* =======================
-   ACTIONS (EDIT/SAVE)
-======================= */
-.history-actions {
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding-bottom: 10px;
-  margin-bottom: 12px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
-  z-index: 2;
-}
-
-.history-actions button {
-  background: rgba(255,255,255,0.15);
-  border: none;
-  padding: 6px 14px;
-  border-radius: 999px;
-  color: #eaf6f6;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.history-actions button:hover {
-  background: rgba(255,255,255,0.25);
-}
-
-/* =======================
-   CONTENT (DIET / WORKOUT)
+   CONTENT
 ======================= */
 .history-detail pre {
   white-space: pre-wrap;
@@ -197,4 +196,48 @@
   padding: 80px;
   font-size: 18px;
   opacity: 0.9;
+}
+/* ===============================
+   AI INSIGHT PREVIEW
+================================ */
+
+.ai-insight-preview {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 14px;
+
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.2);
+
+  color: #e6fffd;
+}
+
+.ai-badge {
+  display: inline-block;
+  margin-bottom: 6px;
+
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+
+  background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+  color: #00222b;
+}
+
+.ai-insight-preview p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.ai-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.85;
 }

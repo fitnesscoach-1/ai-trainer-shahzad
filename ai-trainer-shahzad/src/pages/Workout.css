@@ -1,0 +1,68 @@
+/* ===============================
+   WORKOUT PAGE (BACKGROUND)
+================================ */
+
+.workout-page {
+  min-height: 100vh;
+  padding-bottom: 60px;
+
+  /* 🔥 AI BACKGROUND IMAGE (VITE PUBLIC PATH — FIXED) */
+  background-image:
+    linear-gradient(
+      rgba(10, 20, 30, 0.85),
+      rgba(15, 32, 39, 0.9),
+      rgba(20, 45, 60, 0.95)
+    ),
+    url("/workout-images/workout/workout-background.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  color: #eaf6f6;
+}
+
+/* ===============================
+   SECTION SPACING
+================================ */
+
+.workout-page > * {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===============================
+   HEADER SEPARATION
+================================ */
+
+.workout-header {
+  margin-bottom: 30px;
+}
+
+/* ===============================
+   CARD GRID AREA
+================================ */
+
+.card-grid {
+  margin-top: 20px;
+}
+
+/* ===============================
+   PROGRESS SUMMARY SPACING
+================================ */
+
+.progress-summary {
+  margin-top: 80px;
+}
+
+/* ===============================
+   MOBILE OPTIMIZATION
+================================ */
+
+@media (max-width: 768px) {
+  .workout-page {
+    background-attachment: scroll;
+  }
+}

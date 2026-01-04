@@ -30,6 +30,7 @@
     inset 0 -1px 0 rgba(120, 220, 255, 0.25);
 
   font-family: "Edu SA Beginner", "Inter", "Poppins", system-ui, sans-serif;
+  
 }
 
 /* =========================
@@ -180,26 +181,39 @@
 }
 
 /* =========================
-   POWER ICON
+   POWER ICON (VISIBILITY FIX)
 ========================= */
 .power-icon {
-  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  font-size: 20px;
   cursor: pointer;
-  transition: all 0.3s ease;
+
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+
+  transition: all 0.25s ease;
 }
 
 .power-icon.on {
   color: #22d3ee;
-  filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.9));
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.75);
 }
 
 .power-icon.off {
   color: #ef4444;
-  filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.9));
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.75);
 }
 
 .power-icon:hover {
-  transform: scale(1.2);
+  transform: scale(1.15);
+  background: rgba(255, 255, 255, 0.22);
 }
 
 /* =========================

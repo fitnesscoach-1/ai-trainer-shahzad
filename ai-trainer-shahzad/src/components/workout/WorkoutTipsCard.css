@@ -1,0 +1,82 @@
+/* ===============================
+   WORKOUT TIPS CARD (BACKGROUND)
+================================ */
+
+.workout-tips-card {
+  background-image: url("/workout-images/workout/workout-tips-card.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ===============================
+   CONTENT POSITIONING
+================================ */
+
+.workout-tips-card .workout-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===============================
+   TITLE
+================================ */
+
+.workout-tips-card h3 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+}
+
+/* ===============================
+   DESCRIPTION
+================================ */
+
+.workout-tips-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0.92;
+  max-width: 90%;
+}
+
+/* ===============================
+   BUTTON (CTA)
+================================ */
+
+.workout-tips-card button {
+  margin-top: 14px;
+  align-self: flex-start;
+
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+
+  background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+  color: #041b24;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* ===============================
+   BUTTON HOVER
+================================ */
+
+.workout-tips-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(34, 211, 238, 0.45);
+}
+
+/* ===============================
+   CARD HOVER ENHANCEMENT
+================================ */
+
+.workout-tips-card:hover {
+  box-shadow: 0 35px 70px rgba(34, 211, 238, 0.35);
+}

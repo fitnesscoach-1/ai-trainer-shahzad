@@ -13,9 +13,11 @@ import Diet from "./pages/Diet";
 import DietHistory from "./pages/DietHistory";
 import Contact from "./pages/Contact";
 
-// ✅ AI WORKOUT GENERATOR PAGE (ADD THIS IMPORT)
+// ✅ AI WORKOUT GENERATOR PAGE
 import AIWorkoutGenerator from "./pages/AIWorkoutGenerator";
 
+// ✅ WORKOUT TIPS PAGE (NEW)
+import WorkoutTips from "./pages/WorkoutTips";
 function App() {
   return (
     <>
@@ -57,6 +59,16 @@ function App() {
           element={
             <ProtectedRoute>
               <AIWorkoutGenerator />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 🔥 WORKOUT TIPS PAGE (NEW) */}
+        <Route
+          path="/workout-tips"
+          element={
+            <ProtectedRoute>
+              <WorkoutTips />
             </ProtectedRoute>
           }
         />

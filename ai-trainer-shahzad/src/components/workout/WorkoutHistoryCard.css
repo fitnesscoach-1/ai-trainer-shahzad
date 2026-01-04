@@ -1,0 +1,134 @@
+/* =======================
+   PAGE
+======================= */
+.history-page {
+  padding: 30px;
+  color: #eaf6f6;
+  min-height: 100vh;
+
+  /* ✅ VITE-SAFE BACKGROUND IMAGE */
+  background-image:
+    linear-gradient(
+      rgba(15, 32, 39, 0.88),
+      rgba(32, 58, 67, 0.9),
+      rgba(44, 83, 100, 0.95)
+    ),
+    url("/workout-images/workout/workout-history-card.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.history-page h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* =======================
+   TOP TOOLBAR
+======================= */
+.history-toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  padding: 12px 20px;
+  margin-bottom: 18px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* =======================
+   MAIN LAYOUT
+======================= */
+.history-container {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 22px;
+  height: calc(100vh - 220px);
+}
+
+/* =======================
+   LEFT LIST
+======================= */
+.history-list {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 16px;
+  padding: 12px;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+}
+
+/* =======================
+   HISTORY CARD ITEM
+======================= */
+.history-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  background-image:
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+    url("/workout-images/workout/workout-history-card.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.history-item:hover {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+    url("/workout-images/workout/workout-history-card.png");
+}
+
+.history-item.active {
+  background-image:
+    linear-gradient(rgba(31,111,101,0.85), rgba(26,92,85,0.85)),
+    url("/workout-images/workout/workout-history-card.png");
+
+  box-shadow: 0 0 0 1px rgba(46, 169, 157, 0.6);
+}
+
+/* =======================
+   RIGHT DETAIL PANEL
+======================= */
+.history-detail {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 18px;
+  padding: 22px;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+}
+
+/* =======================
+   CONTENT
+======================= */
+.history-detail pre {
+  white-space: pre-wrap;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  background: rgba(0,0,0,0.45);
+  padding: 18px;
+  border-radius: 14px;
+  color: #e6fffd;
+}
+
+/* =======================
+   LOADING
+======================= */
+.history-loading {
+  text-align: center;
+  padding: 80px;
+  font-size: 18px;
+  opacity: 0.9;
+}

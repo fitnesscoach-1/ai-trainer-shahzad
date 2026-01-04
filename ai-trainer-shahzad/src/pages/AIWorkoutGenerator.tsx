@@ -1,12 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import './AIWorkoutGenerator.css';
-
+import "./AIWorkoutGenerator.css";
 
 export default function AIWorkoutGenerator() {
   const navigate = useNavigate();
 
+  /* ===============================
+     FORM STATE (UNCHANGED)
+  ================================ */
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -24,15 +26,22 @@ export default function AIWorkoutGenerator() {
   const [loading, setLoading] = useState(false);
   const [showResult, setShowResult] = useState(false);
 
+  /* ===============================
+     HANDLE INPUT CHANGE (BUG FIX)
+  ================================ */
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  // ===============================
-  // REAL AI WORKOUT GENERATOR
-  // ===============================
+  /* ===============================
+     REAL AI WORKOUT GENERATOR
+     (FASTAPI + MYSQL + OPENAI)
+  ================================ */
   const generateWorkout = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -66,8 +75,33 @@ export default function AIWorkoutGenerator() {
         }
       );
 
+      /* ===============================
+         ORIGINAL SUCCESS LOGIC
+      ================================ */
       setWorkoutPlan(response.data.workout_plan);
       setShowResult(true);
+
+      /* ===============================
+         STEP 12 — PROGRESS INTEGRATION
+         (FRONTEND ONLY, SAFE)
+      ================================ */
+      const today = new Date().toISOString().split("T")[0];
+
+      const history = JSON.parse(
+        localStorage.getItem("workoutHistory") || "[]"
+      );
+
+      if (!history.includes(today)) {
+        history.push(today);
+        localStorage.setItem(
+          "workoutHistory",
+          JSON.stringify(history)
+        );
+      }
+
+      // Unlock AI insights / progress summary
+      localStorage.setItem("hasGeneratedWorkout", "true");
+
     } catch (error) {
       console.error(error);
       alert("Failed to generate workout. Please try again.");
@@ -76,9 +110,9 @@ export default function AIWorkoutGenerator() {
     }
   };
 
-  // ===============================
-  // RESET (REGENERATE)
-  // ===============================
+  /* ===============================
+     RESET (REGENERATE)
+  ================================ */
   const resetForm = () => {
     setShowResult(false);
     setWorkoutPlan("");
@@ -96,20 +130,25 @@ export default function AIWorkoutGenerator() {
     });
   };
 
-  // ===============================
-  // SAVE WORKOUT (UX CONFIRMATION)
-  // ===============================
+  /* ===============================
+     SAVE WORKOUT (UX CONFIRMATION)
+  ================================ */
   const saveWorkout = () => {
     alert("Workout saved successfully!");
     navigate("/workout-history");
   };
 
+  /* ===============================
+     UI (UNCHANGED)
+  ================================ */
   return (
     <div className="workout-page">
       {!showResult ? (
         <form className="workout-form full-bg" onSubmit={generateWorkout}>
           <h1>AI Workout Generator</h1>
-          <p className="subtitle">Get workouts based on your body & fitness goal</p>
+          <p className="subtitle">
+            Get workouts based on your body & fitness goal
+          </p>
 
           {/* Name */}
           <div className="field">
@@ -220,7 +259,9 @@ export default function AIWorkoutGenerator() {
             >
               <option value="weight loss">Weight Loss</option>
               <option value="weight gain">Weight Gain</option>
-              <option value="muscle transformation">Muscle Transformation</option>
+              <option value="muscle transformation">
+                Muscle Transformation
+              </option>
               <option value="body toning">Body Toning</option>
             </select>
           </div>

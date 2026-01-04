@@ -15,7 +15,7 @@ export default function WorkoutHistory() {
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Gmail-style selection
+  /* Gmail-style selection */
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const token = localStorage.getItem("token");
@@ -94,7 +94,7 @@ export default function WorkoutHistory() {
     <div className="history-page">
       <h1>My Workout History</h1>
 
-      {/* ✅ TOOLBAR — APPEARS ONLY WHEN CHECKBOX IS USED */}
+      {/* TOOLBAR */}
       {selectedIds.length > 0 && (
         <div className="history-toolbar">
           <label>
@@ -115,7 +115,9 @@ export default function WorkoutHistory() {
       <div className="history-container">
         {/* LEFT: LIST */}
         <div className="history-list">
-          {workouts.length === 0 && <p>No workouts found.</p>}
+          {workouts.length === 0 && (
+            <p style={{ opacity: 0.7 }}>No workouts found.</p>
+          )}
 
           {workouts.map((workout) => (
             <div
@@ -125,7 +127,6 @@ export default function WorkoutHistory() {
               }`}
               onClick={() => setSelectedWorkout(workout)}
             >
-              {/* ✅ CHECKBOX */}
               <input
                 type="checkbox"
                 checked={selectedIds.includes(workout.id)}
@@ -149,9 +150,28 @@ export default function WorkoutHistory() {
         {/* RIGHT: DETAILS */}
         <div className="history-detail">
           {selectedWorkout ? (
-            <pre>{selectedWorkout.workout_plan}</pre>
+            <>
+              {/* 🤖 AI INSIGHT PREVIEW (FRONTEND ONLY) */}
+              <div className="ai-insight-preview">
+                <span className="ai-badge">AI INSIGHT</span>
+                <p>
+                  Based on your <strong>{selectedWorkout.fitness_goal}</strong>{" "}
+                  goal, consistency matters more than intensity.
+                </p>
+
+                <div className="ai-stats">
+                  <span>🔥 ~650 cal</span>
+                  <span>⏱ ~45–60 min</span>
+                </div>
+              </div>
+
+              {/* WORKOUT PLAN (UNCHANGED) */}
+              <pre>{selectedWorkout.workout_plan}</pre>
+            </>
           ) : (
-            <p>Select a workout to view details</p>
+            <p style={{ opacity: 0.7 }}>
+              Select a workout to view details
+            </p>
           )}
         </div>
       </div>

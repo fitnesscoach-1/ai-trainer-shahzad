@@ -1,8 +1,24 @@
-import "./WorkoutHistoryCard.css";
-import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import './WorkoutCard.css';
 
-export default function WorkoutHistoryCard() {
+interface WorkoutCardProps {
+  title: string;
+  description: string;
+  image: string;
+  buttonText: string;
+  navigateTo: string;
+  cardClass: string;
+}
+
+export default function WorkoutCard({
+  title,
+  description,
+  image,
+  buttonText,
+  navigateTo,
+  cardClass,
+}: WorkoutCardProps) {
   const navigate = useNavigate();
   const cardRef = useRef<HTMLDivElement | null>(null);
 
@@ -49,20 +65,16 @@ export default function WorkoutHistoryCard() {
   return (
     <div
       ref={cardRef}
-      className="workout-card workout-history-card"
-      /* ✅ VITE-SAFE IMAGE */
-      style={{
-        backgroundImage:
-          "url('/workout-images/workout/workout-history-card.png')",
-      }}
-      onClick={() => navigate("/workout-history")}
+      className={`workout-card ${cardClass}`}
+      style={{ backgroundImage: `url('${image}')` }}
+      onClick={() => navigate(navigateTo)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       <div className="workout-card-content">
-        <h3>Workout History</h3>
-        <p>Track your past workouts and progress</p>
-        <button>View History</button>
+        <h3>{title}</h3>
+        <p>{description}</p>
+        <button>{buttonText}</button>
       </div>
     </div>
   );

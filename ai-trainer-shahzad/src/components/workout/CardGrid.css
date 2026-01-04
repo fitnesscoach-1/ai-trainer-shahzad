@@ -1,0 +1,281 @@
+/* ===============================
+   CARD GRID LAYOUT
+================================ */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  padding: 40px 60px;
+}
+
+@media (max-width: 1100px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+}
+
+/* ===============================
+   BASE WORKOUT CARD
+================================ */
+
+.workout-card {
+  position: relative;
+  height: 360px;
+  border-radius: 22px;
+  overflow: hidden;
+  cursor: pointer;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+
+  color: #ffffff;
+
+  opacity: 0;
+  transform: translateY(28px) scale(0.96);
+
+  animation: cardEnter 0.8s ease-out forwards;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    filter 0.35s ease;
+}
+
+/* Sequential entry */
+.card-grid > .workout-card:nth-child(1) {
+  animation-delay: 0.15s;
+}
+.card-grid > .workout-card:nth-child(2) {
+  animation-delay: 0.35s;
+}
+.card-grid > .workout-card:nth-child(3) {
+  animation-delay: 0.55s;
+}
+
+/* ===============================
+   CARD OVERLAY (READABILITY)
+================================ */
+
+.workout-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.82),
+    rgba(0, 0, 0, 0.45),
+    rgba(0, 0, 0, 0.18)
+  );
+
+  z-index: 0;
+}
+
+/* ===============================
+   CARD CONTENT
+================================ */
+
+.workout-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.workout-card h3 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.workout-card p {
+  font-size: 0.95rem;
+  opacity: 0.92;
+  line-height: 1.45;
+}
+
+/* ===============================
+   BUTTON
+================================ */
+
+.workout-card button {
+  margin-top: 14px;
+  padding: 10px 18px;
+
+  border: none;
+  border-radius: 999px;
+
+  background: rgba(0, 200, 255, 0.9);
+  color: #00222b;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.workout-card button:hover {
+  background: rgba(0, 220, 255, 1);
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   HOVER + AI GLOW
+================================ */
+
+.workout-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow:
+    0 30px 60px rgba(0, 200, 255, 0.35),
+    0 0 0 1px rgba(0, 200, 255, 0.25);
+  filter: brightness(1.06);
+}
+
+.workout-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  pointer-events: none;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(34, 211, 238, 0.18),
+    transparent 60%
+  );
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.workout-card:hover::after {
+  opacity: 1;
+}
+
+/* ===============================
+   SKELETON LOADING SHIMMER
+================================ */
+
+.workout-card.loading {
+  pointer-events: none;
+}
+
+.workout-card.loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.08) 25%,
+    rgba(255, 255, 255, 0.18) 37%,
+    rgba(255, 255, 255, 0.08) 63%
+  );
+
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite linear;
+  z-index: 2;
+}
+
+@keyframes shimmer {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+/* ===============================
+   DISABLED / LOCKED STATE
+================================ */
+
+.workout-card.disabled {
+  filter: grayscale(1) brightness(0.75);
+  cursor: not-allowed;
+}
+
+.workout-card.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.workout-card.disabled::after {
+  opacity: 0;
+}
+
+.lock-label {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+
+  backdrop-filter: blur(2px);
+  z-index: 2;
+}
+
+/* ===============================
+   CARD BADGES (AI / NEW / PRO)
+================================ */
+
+.card-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  padding: 6px 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+
+  z-index: 3;
+}
+
+.card-badge.ai {
+  background: rgba(34, 211, 238, 0.9);
+  color: #022c36;
+}
+
+.card-badge.new {
+  background: rgba(74, 222, 128, 0.9);
+  color: #022c22;
+}
+
+.card-badge.pro {
+  background: rgba(245, 158, 11, 0.9);
+  color: #3a1d04;
+}
+
+/* ===============================
+   KEYFRAMES
+================================ */
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

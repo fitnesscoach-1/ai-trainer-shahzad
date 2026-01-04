@@ -1,7 +1,8 @@
 import "./CardGrid.css";
 import AIWorkoutCard from "./AIWorkoutCard";
-import WorkoutTipsCard from "./WorkoutTipsCard";
 import WorkoutHistoryCard from "./WorkoutHistoryCard";
+import WorkoutTipsCard from "./WorkoutTipsCard";
+
 export default function CardGrid() {
   return (
     <div className="card-grid">
