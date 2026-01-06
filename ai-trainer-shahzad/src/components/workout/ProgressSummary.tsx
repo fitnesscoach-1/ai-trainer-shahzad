@@ -2,7 +2,7 @@ import "./ProgressSummary.css";
 import { useEffect, useState } from "react";
 
 /* ===============================
-   WEEK UTILITY (CRON STYLE)
+   WEEK UTILITY (UNCHANGED)
 ================================ */
 function getCurrentWeekKey() {
   const now = new Date();
@@ -19,11 +19,11 @@ function getCurrentWeekKey() {
 
 export default function ProgressSummary() {
   /* ===============================
-     MOCK TARGETS (SAFE FOR NOW)
+     MOCK DATA (PRESERVED)
   ================================ */
   const targetCompletion = 72;
   const targetScore = 86;
-  const targetStreak = 8; // days this week
+  const targetStreak = 8;
 
   const [completion, setCompletion] = useState(0);
   const [score, setScore] = useState(0);
@@ -32,27 +32,43 @@ export default function ProgressSummary() {
   const [trend, setTrend] = useState<"up" | "down" | "same">("same");
   const [highlight, setHighlight] = useState(false);
 
+  /* ===============================
+     AI INSIGHT (PRESERVED)
+  ================================ */
+  const [insight, setInsight] = useState("");
+
+  /* ===============================
+     AI CONFIDENCE (DYNAMIC)
+  ================================ */
+  const [confidence, setConfidence] = useState(0);
+
   useEffect(() => {
     const currentWeek = getCurrentWeekKey();
     const savedWeek = localStorage.getItem("progressWeek");
 
-    /* ===============================
-       WEEKLY RESET
-    ================================ */
     if (savedWeek !== currentWeek) {
       localStorage.setItem("progressWeek", currentWeek);
       localStorage.setItem("prevScore", "0");
-      localStorage.setItem("prevCompletion", "0");
     }
 
     const prevScore = Number(localStorage.getItem("prevScore")) || 0;
 
-    /* ===============================
-       TREND + UNLOCK HIGHLIGHT
-    ================================ */
-    if (targetScore > prevScore) setTrend("up");
-    else if (targetScore < prevScore) setTrend("down");
-    else setTrend("same");
+    if (targetScore > prevScore) {
+      setTrend("up");
+      setInsight(
+        "Your consistency is improving. Maintain this rhythm to unlock peak performance."
+      );
+    } else if (targetScore < prevScore) {
+      setTrend("down");
+      setInsight(
+        "Performance dipped slightly. Focus on recovery and structured sessions."
+      );
+    } else {
+      setTrend("same");
+      setInsight(
+        "Your performance is stable. A small intensity boost could elevate results."
+      );
+    }
 
     if (targetScore > prevScore) {
       setHighlight(true);
@@ -60,16 +76,13 @@ export default function ProgressSummary() {
     }
 
     /* ===============================
-       ANIMATE COMPLETION + STREAK
+       LOAD METRICS (UNCHANGED)
     ================================ */
     setTimeout(() => {
       setCompletion(targetCompletion);
       setStreak(targetStreak);
     }, 300);
 
-    /* ===============================
-       ANIMATE SCORE COUNT-UP
-    ================================ */
     let current = 0;
     const interval = setInterval(() => {
       current += 1;
@@ -77,108 +90,155 @@ export default function ProgressSummary() {
       if (current >= targetScore) clearInterval(interval);
     }, 18);
 
-    /* ===============================
-       SAVE FOR NEXT WEEK COMPARISON
-    ================================ */
     localStorage.setItem("prevScore", String(targetScore));
-    localStorage.setItem("prevCompletion", String(targetCompletion));
-
     return () => clearInterval(interval);
   }, []);
 
   /* ===============================
-     COLOR HELPERS
+     CONFIDENCE CALCULATION
+     (SAFE, FRONTEND-ONLY)
   ================================ */
-  const completionColor =
-    completion < 40 ? "#ef4444" : completion < 70 ? "#facc15" : "#22c55e";
+  useEffect(() => {
+    const completionWeight = completion * 0.25;
+    const scoreWeight = score * 0.45;
+    const streakWeight = Math.min(streak * 3, 15);
 
-  const scoreColor =
-    score < 40 ? "#ef4444" : score < 70 ? "#facc15" : "#22c55e";
+    const calculated =
+      50 + completionWeight + scoreWeight + streakWeight;
+
+    setConfidence(Math.min(Math.round(calculated), 100));
+  }, [completion, score, streak]);
 
   const ringOffset = (value: number, max = 100) =>
     326 - (326 * value) / max;
 
   return (
     <div className="progress-summary">
-      <h2 className="progress-title">Your Progress</h2>
+      {/* ===============================
+         AI CONFIDENCE BADGE + TOOLTIP
+      ================================ */}
+      <div className="ai-confidence-badge">
+        <span className="ai-confidence-dot"></span>
+        AI Confidence {confidence}%
 
-      <div className="progress-grid">
-        {/* COMPLETION */}
-        <div className="progress-ring">
-          <svg width="120" height="120">
-            <circle className="ring-bg" cx="60" cy="60" r="52" />
-            <circle
-              className="ring-progress"
-              cx="60"
-              cy="60"
-              r="52"
-              style={{
-                strokeDashoffset: ringOffset(completion),
-                stroke: completionColor,
-              }}
-            />
-          </svg>
-          <span className="ring-value">{completion}%</span>
-          <span className="ring-label">Completed</span>
-        </div>
-
-        {/* STREAK */}
-        <div className="progress-ring">
-          <svg width="120" height="120">
-            <circle className="ring-bg" cx="60" cy="60" r="52" />
-            <circle
-              className="ring-progress"
-              cx="60"
-              cy="60"
-              r="52"
-              style={{
-                strokeDashoffset: ringOffset(streak, 14),
-                stroke: "#f97316",
-              }}
-            />
-          </svg>
-          <span className="ring-value">{streak}</span>
-          <span className="ring-label">Days Streak</span>
-          <span className="ring-sub">This week</span>
-        </div>
-
-        {/* SCORE */}
-        <div
-          className={`progress-ring progress-score ${
-            highlight ? "score-highlight" : ""
-          }`}
-        >
-          <svg width="120" height="120">
-            <circle className="ring-bg" cx="60" cy="60" r="52" />
-            <circle
-              className="ring-progress"
-              cx="60"
-              cy="60"
-              r="52"
-              style={{
-                strokeDashoffset: ringOffset(score),
-                stroke: scoreColor,
-              }}
-            />
-          </svg>
-
-          <span className="ring-value">{score}</span>
-          <span className="ring-label">
-            Consistency
-            {trend === "up" && <span className="trend up"> ↑</span>}
-            {trend === "down" && <span className="trend down"> ↓</span>}
-            {trend === "same" && <span className="trend same"> →</span>}
+        {/* Tooltip */}
+        <div className="ai-confidence-tooltip">
+          <strong>How AI Confidence is calculated</strong>
+          <ul>
+            <li>✔ Workout completion rate</li>
+            <li>✔ Consistency score</li>
+            <li>✔ Weekly streak strength</li>
+          </ul>
+          <span className="tooltip-note">
+            Updated automatically as you train
           </span>
         </div>
       </div>
 
-      <div className="progress-insight">
-        🤖 Weekly performance{" "}
-        {trend === "up"
-          ? "is improving — excellent momentum."
-          : trend === "down"
-          ? "dropped slightly — refocus this week."
-          : "is stable — aim to push further."}
+      {/* ===============================
+         HOLOGRAM PARTICLES (PRESERVED)
+      ================================ */}
+      <div className="hologram-particles">
+        {Array.from({ length: 14 }).map((_, i) => (
+          <span key={i} />
+        ))}
+      </div>
+
+      <h2>Your Progress</h2>
+      <p className="subtitle">AI-powered performance overview</p>
+
+      <div className="progress-rings">
+        {/* COMPLETION */}
+        <div className="progress-ring-card">
+          <div className="ring-wrapper">
+            <svg width="120" height="120">
+              <circle className="ring-bg" cx="60" cy="60" r="52" />
+              <circle
+                className="ring-progress green"
+                cx="60"
+                cy="60"
+                r="52"
+                style={{ strokeDashoffset: ringOffset(completion) }}
+              />
+            </svg>
+            <div className="ring-center">
+              <span className="ring-value">{completion}%</span>
+              <span className="ring-label">Completed</span>
+            </div>
+          </div>
+          <div className="ring-text">
+            <h4>Workout Completion</h4>
+            <span>Overall success rate</span>
+          </div>
+        </div>
+
+        {/* STREAK */}
+        <div className="progress-ring-card">
+          <div className="ring-wrapper">
+            <svg width="120" height="120">
+              <circle className="ring-bg" cx="60" cy="60" r="52" />
+              <circle
+                className="ring-progress orange"
+                cx="60"
+                cy="60"
+                r="52"
+                style={{ strokeDashoffset: ringOffset(streak, 14) }}
+              />
+            </svg>
+            <div className="ring-center">
+              <span className="ring-value">{streak}</span>
+              <span className="ring-label">Days</span>
+            </div>
+          </div>
+          <div className="ring-text">
+            <h4>Weekly Streak</h4>
+            <span>This week</span>
+          </div>
+        </div>
+
+        {/* CONSISTENCY */}
+        <div className={`progress-ring-card ${highlight ? "highlight" : ""}`}>
+          <div className="ring-wrapper">
+            <svg width="120" height="120">
+              <circle className="ring-bg" cx="60" cy="60" r="52" />
+              <circle
+                className="ring-progress cyan"
+                cx="60"
+                cy="60"
+                r="52"
+                style={{ strokeDashoffset: ringOffset(score) }}
+              />
+            </svg>
+            <div className="ring-center">
+              <span className="ring-value">{score}</span>
+              <span className="ring-label">Score</span>
+            </div>
+          </div>
+          <div className="ring-text">
+            <h4>
+              Consistency{" "}
+              {trend === "up" && <span className="trend up">↑</span>}
+              {trend === "down" && <span className="trend down">↓</span>}
+              {trend === "same" && <span className="trend same">→</span>}
+            </h4>
+            <span>Training reliability</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ===============================
+         AI INSIGHT LINE (PRESERVED)
+      ================================ */}
+      <div className={`progress-insight ${trend}`}>
+        <span className="ai-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <path
+              d="M12 2C7 2 3 6 3 11c0 3.5 2 6.5 5 8v3h8v-3c3-1.5 5-4.5 5-8 0-5-4-9-9-9z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+        <span className="ai-text">{insight}</span>
       </div>
     </div>
   );

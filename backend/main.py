@@ -1,15 +1,13 @@
-from fastapi import FastAPI, Depends, HTTPException, status, Form
+from fastapi import FastAPI, Depends, HTTPException, status, Form, Body
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import Body
-
-from email_service import send_contact_email
+from sqlalchemy.orm import Session
 
 import models
 import schemas
 import auth
 from database import SessionLocal, engine
+from email_service import send_contact_email
 
 from openai_service import (
     generate_ai_workout,
@@ -19,14 +17,17 @@ from openai_service import (
 # =========================
 # APP INIT
 # =========================
-app = FastAPI()
+app = FastAPI(title="AI Trainer Shahzad API")
 
 # =========================
-# CORS
+# CORS (FIXED & SAFE)
 # =========================
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -60,12 +61,17 @@ def get_current_user(
             detail="Invalid authentication credentials",
         )
 
-    user = db.query(models.User).filter(
-        models.User.email == payload.get("sub")
-    ).first()
+    user = (
+        db.query(models.User)
+        .filter(models.User.email == payload.get("sub"))
+        .first()
+    )
 
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
 
     return user
 
@@ -74,9 +80,11 @@ def get_current_user(
 # =========================
 @app.post("/signup")
 def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    existing_user = db.query(models.User).filter(
-        models.User.email == user.email
-    ).first()
+    existing_user = (
+        db.query(models.User)
+        .filter(models.User.email == user.email)
+        .first()
+    )
 
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -108,9 +116,11 @@ def login(
     password: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    db_user = db.query(models.User).filter(
-        models.User.email == username
-    ).first()
+    db_user = (
+        db.query(models.User)
+        .filter(models.User.email == username)
+        .first()
+    )
 
     if not db_user or not auth.verify_password(password, db_user.password):
         raise HTTPException(status_code=400, detail="Invalid credentials")
@@ -121,7 +131,7 @@ def login(
 
     return {
         "access_token": access_token,
-        "token_type": "bearer"
+        "token_type": "bearer",
     }
 
 # =========================
@@ -243,7 +253,7 @@ def get_diets(
     )
 
 # =========================
-# CONTACT (NEW – REQUIRED)
+# CONTACT
 # =========================
 @app.post("/contact")
 def contact(
@@ -261,3 +271,12 @@ def contact(
         raise HTTPException(status_code=500, detail="Failed to send email")
 
     return {"message": "Message sent successfully"}
+
+# =========================
+# WORKOUT TIPS ROUTER
+# =========================
+import workout_tips
+app.include_router(workout_tips.router)
+
+import workout_tip_history
+app.include_router(workout_tip_history.router)

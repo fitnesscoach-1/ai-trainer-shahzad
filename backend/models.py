@@ -4,7 +4,8 @@ from sqlalchemy import (
     String,
     Text,
     ForeignKey,
-    DateTime
+    DateTime,
+    JSON,
 )
 from sqlalchemy.sql import func
 from database import Base
@@ -60,7 +61,7 @@ class Workout(Base):
     workout_preference = Column(String(50)) # strength, cardio, balanced
 
     # ========== AI RESULT ==========
-    workout_plan = Column(Text)              # Full AI-generated plan text
+    workout_plan = Column(Text)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
@@ -74,7 +75,11 @@ class Diet(Base):
     id = Column(Integer, primary_key=True, index=True)
 
     # 🔗 Link to logged-in user
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True
+    )
 
     # ========== FORM DATA ==========
     name = Column(String(100))
@@ -96,3 +101,34 @@ class Diet(Base):
     diet_plan = Column(Text)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+# ======================================================
+# WORKOUT TIPS HISTORY (NEW – SAFE ADDITION)
+# ======================================================
+class WorkoutTipHistory(Base):
+    __tablename__ = "workout_tip_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    # 🔗 Link to logged-in user
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False
+    )
+
+    # 🔗 Optional link to workout
+    workout_id = Column(
+        Integer,
+        ForeignKey("workouts.id", ondelete="SET NULL"),
+        nullable=True
+    )
+
+    # 🧠 Stored AI tips (warmup / workout / recovery)
+    tips = Column(JSON, nullable=False)
+
+    created_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now()
+    )

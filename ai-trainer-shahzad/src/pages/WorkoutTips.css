@@ -1,5 +1,5 @@
 /* ===============================
-   WORKOUT TIPS PAGE (SCOPED)
+   PAGE BACKGROUND (IMAGE + OVERLAY)
 ================================ */
 
 .workout-tips-page {
@@ -8,86 +8,365 @@
   align-items: center;
   justify-content: center;
 
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #eaf6f6;
+  background:
+    linear-gradient(
+      rgba(5, 12, 20, 0.48),
+      rgba(5, 12, 20, 0.58)
+    ),
+    radial-gradient(circle at top, rgba(120,180,255,0.25), transparent 45%),
+    url("/coaches/workouttips-bg.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  color: #eaf6ff;
 }
 
 /* ===============================
-   PAGE CARD (SCOPED – FIX)
-   This no longer clashes with dashboard card
+   PANEL OUTER FRAME
 ================================ */
 
-.workout-tips-page .workout-tips-card {
-  max-width: 520px;
-  padding: 42px;
-  border-radius: 24px;
+.ai-panel-outer {
+  position: relative;
+  padding: 3px;
+  border-radius: 32px;
+}
 
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(12px);
+.ai-panel-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 32px;
 
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
-  text-align: center;
+  background: linear-gradient(
+    120deg,
+    #6ae3ff,
+    #a78bfa,
+    #f472b6
+  );
+
+  filter: blur(26px);
+  opacity: 0.75;
+  z-index: 0;
 }
 
 /* ===============================
-   TYPOGRAPHY
+   MAIN PANEL
 ================================ */
 
-.workout-tips-page h1 {
-  font-size: 2rem;
-  margin-bottom: 10px;
+.ai-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  padding: 36px 32px;
+  border-radius: 28px;
+
+  background:
+    radial-gradient(circle at top, rgba(150,190,255,0.22), transparent 45%),
+    linear-gradient(180deg, rgba(8,18,30,0.96), rgba(4,10,20,0.98));
+
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(120,180,255,0.28);
+
+  box-shadow:
+    0 0 55px rgba(120,180,255,0.35),
+    inset 0 0 26px rgba(255,255,255,0.06);
+
+  overflow: hidden;
 }
 
-.workout-tips-page .subtitle {
-  opacity: 0.9;
-  margin-bottom: 22px;
+/* animated scan line */
+.ai-panel::after {
+  content: "";
+  position: absolute;
+  inset: -40% 0 auto 0;
+  height: 60%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(140,190,255,0.12),
+    transparent
+  );
+  animation: scan 9s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  from { transform: translateY(-120%); }
+  to { transform: translateY(200%); }
 }
 
 /* ===============================
-   COMING SOON BADGE
+   HEADER
 ================================ */
 
-.workout-tips-page .coming-soon {
-  display: inline-block;
-  margin-bottom: 22px;
-  padding: 8px 16px;
+.ai-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
 
+.ai-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ai-panel-header h2 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.ai-bot-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  background: linear-gradient(135deg, #7dd3fc, #c4b5fd);
+  box-shadow: 0 0 22px rgba(125,211,252,0.9);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-bot-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===============================
+   COACH SELECTOR
+================================ */
+
+.coach-selector {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #f59e0b, #f97316);
-  color: #111;
+
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(140,190,255,0.25);
+}
+
+.coach-selector button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+
+  font-size: 0.8rem;
   font-weight: 600;
+  color: #c7d2fe;
+  background: transparent;
+}
+
+.coach-selector button img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.45);
+}
+
+.coach-selector button.active {
+  color: #0b1220;
+  background: linear-gradient(135deg, #7dd3fc, #c4b5fd);
+  box-shadow: 0 0 18px rgba(125,211,252,0.75);
 }
 
 /* ===============================
-   DESCRIPTION
+   SUBTITLE
 ================================ */
 
-.workout-tips-page .description {
-  margin-bottom: 12px;
-  opacity: 0.95;
-}
-
-/* ===============================
-   LIST
-================================ */
-
-.workout-tips-page ul {
-  text-align: left;
-  margin: 18px auto;
-  max-width: 360px;
-}
-
-.workout-tips-page li {
-  margin-bottom: 8px;
-  opacity: 0.95;
-}
-
-/* ===============================
-   FOOTER HINT
-================================ */
-
-.workout-tips-page .hint {
-  margin-top: 18px;
+.ai-panel-subtitle {
   font-size: 0.9rem;
-  opacity: 0.85;
+  opacity: 0.9;
+  margin-bottom: 18px;
+}
+
+/* ===============================
+   TABS
+================================ */
+
+.ai-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.ai-tab {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #b6ccff;
+}
+
+.ai-tab.active {
+  color: #7dd3fc;
+  position: relative;
+}
+
+.ai-tab.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #7dd3fc, #c4b5fd);
+}
+
+/* ===============================
+   CHAT AREA (SCROLL ENABLED ✅)
+================================ */
+
+.ai-chat {
+  margin-top: 14px;
+  padding: 18px;
+  border-radius: 22px;
+
+  background: rgba(8,18,28,0.75);
+  border: 1px solid rgba(140,190,255,0.22);
+  box-shadow: inset 0 0 28px rgba(255,255,255,0.06);
+
+  /* REQUIRED FOR SMOOTH SCROLL */
+  max-height: 300px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* ===============================
+   MESSAGES
+================================ */
+
+.ai-message {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ai-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(140,190,255,0.3);
+}
+
+.ai-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ai-message-bubble {
+  padding: 16px 20px;
+  border-radius: 20px;
+  background: rgba(30,45,65,0.8);
+  border: 1px solid rgba(140,190,255,0.35);
+  line-height: 1.65;
+  font-size: 0.96rem;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.45);
+}
+
+/* ===============================
+   ACTION BAR
+================================ */
+
+.ai-actions.three {
+  margin-top: 22px;
+  padding: 18px;
+
+  background: rgba(255,255,255,0.06);
+  border-radius: 22px;
+  border: 1px solid rgba(140,190,255,0.25);
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 14px;
+}
+
+/* ===============================
+   BUTTONS
+================================ */
+
+.ai-btn {
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: none;
+
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+
+  color: #0b1220;
+
+  background: linear-gradient(135deg, #7dd3fc, #c4b5fd);
+  box-shadow:
+    0 8px 26px rgba(125,211,252,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.ai-btn:hover {
+  transform: scale(1.05);
+}
+
+.ai-btn.icon {
+  width: 56px;
+  font-size: 1.15rem;
+}
+
+/* ===============================
+   TYPING CURSOR
+================================ */
+
+.typing-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 640px) {
+  .ai-panel {
+    padding: 26px 20px;
+  }
+
+  .ai-panel-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ai-actions.three {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-btn.icon {
+    width: 100%;
+  }
+
+  .ai-chat {
+    max-height: 220px;
+  }
 }

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 
 
@@ -124,7 +124,22 @@ class WorkoutResponse(BaseModel):
 
 
 # ======================================================
-# DIET GENERATOR SCHEMAS (NEW – ADDED SAFELY)
+# WORKOUT TIPS (NEW – SAFE ADDITION)
+# ======================================================
+
+class WorkoutTipsResponse(BaseModel):
+    warmup: List[str]
+    workout: List[str]
+    recovery: List[str]
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+        orm_mode = True
+
+
+# ======================================================
+# DIET GENERATOR SCHEMAS
 # ======================================================
 
 class DietCreate(BaseModel):
@@ -154,6 +169,7 @@ class DietResponse(DietCreate):
         from_attributes = True
         orm_mode = True
 
+
 # =========================
 # CONTACT FORM SCHEMA
 # =========================
@@ -161,3 +177,30 @@ class ContactCreate(BaseModel):
     name: str
     email: EmailStr
     message: str
+# ======================================================
+# WORKOUT TIPS (SAVE + RESPONSE)
+# ======================================================
+
+class WorkoutTipsSave(BaseModel):
+    tips: dict
+
+
+class WorkoutTipsResponse(BaseModel):
+    warmup: list[str]
+    workout: list[str]
+    recovery: list[str]
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+# =========================
+# WORKOUT TIPS HISTORY RESPONSE
+# =========================
+class WorkoutTipHistoryResponse(BaseModel):
+    id: int
+    workout_id: int | None
+    tips: dict
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

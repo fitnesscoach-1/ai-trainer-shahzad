@@ -1,7 +1,14 @@
 from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
 from jose import JWTError, jwt
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
+
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from sqlalchemy.orm import Session
+
+import models
+from database import get_db
 
 # ---------------- Password Hashing ----------------
 pwd_context = CryptContext(
@@ -32,39 +39,78 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # ---------------- JWT Functions ----------------
 def create_access_token(
-    data: Dict[str, str],
+    data: Dict[str, Any],
     expires_delta: Optional[timedelta] = None
 ) -> str:
     """
     Create JWT access token.
     """
-    to_encode = data.copy()
+    to_encode: Dict[str, Any] = data.copy()
 
     expire = datetime.now(timezone.utc) + (
         expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     )
 
-    to_encode.update({"exp": expire})
+    to_encode["exp"] = expire
 
-    encoded_jwt = jwt.encode(
+    return jwt.encode(
         to_encode,
         SECRET_KEY,
         algorithm=ALGORITHM
     )
 
-    return encoded_jwt
 
-
-def verify_token(token: str) -> Optional[Dict]:
+def verify_token(token: str) -> Optional[Dict[str, Any]]:
     """
     Verify JWT token and return payload.
     """
     try:
-        payload = jwt.decode(
+        return jwt.decode(
             token,
             SECRET_KEY,
             algorithms=[ALGORITHM]
         )
-        return payload
     except JWTError:
         return None
+
+
+# ---------------- AUTH DEPENDENCY ----------------
+# ✅ tokenUrl MUST match the login endpoint exactly
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
+
+def get_current_user(
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db),
+):
+    """
+    Get currently authenticated user from JWT token.
+    """
+    payload = verify_token(token)
+
+    if payload is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+        )
+
+    email = payload.get("sub")
+
+    if not isinstance(email, str):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token missing subject",
+        )
+
+    user = (
+        db.query(models.User)
+        .filter(models.User.email == email)
+        .first()
+    )
+
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+
+    return user
