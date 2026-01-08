@@ -1,243 +1,32 @@
-/* =======================
-   PAGE
-======================= */
 .history-page {
-  padding: 30px;
-  color: #eaf6f6;
   min-height: 100vh;
 
-  /* ✅ PUBLIC FOLDER IMAGE (FINAL FIX) */
-  background-image:
-    linear-gradient(
-      rgba(15, 32, 39, 0.88),
-      rgba(32, 58, 67, 0.9),
-      rgba(44, 83, 100, 0.95)
+  /* ✅ FIX: space for fixed navbar */
+  padding: 110px 32px 120px;
+
+  color: #e5e7eb;
+
+  /* Deep AI galaxy background */
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(120, 90, 255, 0.18),
+      transparent 45%
     ),
-    url("/workout-images/workout/workout-history-card.png");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.history-page h1 {
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-/* =======================
-   TOP TOOLBAR
-======================= */
-.history-toolbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  padding: 12px 20px;
-  margin-bottom: 18px;
-
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(6px);
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-}
-
-.history-toolbar label {
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.history-toolbar .danger {
-  background: linear-gradient(135deg, #ff4d4f, #ff7875);
-  color: white;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 999px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.history-toolbar .danger:hover {
-  opacity: 0.9;
-}
-
-/* =======================
-   MAIN LAYOUT
-======================= */
-.history-container {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 22px;
-  height: calc(100vh - 220px);
-}
-
-/* =======================
-   LEFT LIST
-======================= */
-.history-list {
-  background: rgba(0, 0, 0, 0.45);
-  border-radius: 16px;
-  padding: 12px;
-  overflow-y: auto;
-  backdrop-filter: blur(10px);
-}
-
-/* =======================
-   HISTORY CARD ITEM
-======================= */
-.history-item {
-  display: flex;
-  gap: 12px;
-  padding: 14px;
-  margin-bottom: 10px;
-  border-radius: 14px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-
-  background-image:
-    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
-    url("/workout-images/workout/workout-history-card.png");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.history-item:hover {
-  background-image:
-    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-    url("/workout-images/workout/workout-history-card.png");
-}
-
-.history-item.active {
-  background-image:
-    linear-gradient(rgba(31,111,101,0.85), rgba(26,92,85,0.85)),
-    url("/workout-images/workout/workout-history-card.png");
-
-  box-shadow: 0 0 0 1px rgba(46, 169, 157, 0.6);
-}
-
-.history-item input[type="checkbox"] {
-  margin-top: 4px;
-  transform: scale(1.1);
-}
-
-.history-item-content h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.history-item-content p {
-  margin: 4px 0;
-  font-size: 13px;
-  opacity: 0.95;
-}
-
-.history-item-content small {
-  font-size: 11px;
-  opacity: 0.75;
-}
-
-/* =======================
-   RIGHT DETAIL PANEL
-======================= */
-.history-detail {
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 18px;
-  padding: 22px;
-  overflow-y: auto;
-  backdrop-filter: blur(10px);
-}
-
-/* =======================
-   CONTENT
-======================= */
-.history-detail pre {
-  white-space: pre-wrap;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 13px;
-  line-height: 1.7;
-  background: rgba(0,0,0,0.45);
-  padding: 18px;
-  border-radius: 14px;
-  color: #e6fffd;
-}
-
-/* =======================
-   EDIT MODE
-======================= */
-.workout-editor {
-  width: 100%;
-  height: 100%;
-  min-height: 400px;
-  background: rgba(0,0,0,0.55);
-  border: none;
-  border-radius: 14px;
-  padding: 18px;
-  color: #eaf6f6;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 13px;
-  line-height: 1.7;
-  resize: vertical;
-}
-
-.workout-editor:focus {
-  outline: 2px solid #2ea99d;
-}
-
-/* =======================
-   LOADING
-======================= */
-.history-loading {
-  text-align: center;
-  padding: 80px;
-  font-size: 18px;
-  opacity: 0.9;
-}
-/* ===============================
-   AI INSIGHT PREVIEW
-================================ */
-
-.ai-insight-preview {
-  margin-bottom: 16px;
-  padding: 14px 16px;
-
-  background: rgba(0, 0, 0, 0.45);
-  border-radius: 14px;
-
-  backdrop-filter: blur(8px);
-  box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.2);
-
-  color: #e6fffd;
-}
-
-.ai-badge {
-  display: inline-block;
-  margin-bottom: 6px;
-
-  padding: 4px 10px;
-  border-radius: 999px;
-
-  font-size: 0.7rem;
-  font-weight: 700;
-
-  background: linear-gradient(135deg, #22d3ee, #0ea5e9);
-  color: #00222b;
-}
-
-.ai-insight-preview p {
-  font-size: 0.85rem;
-  line-height: 1.5;
-  margin-bottom: 8px;
-}
-
-.ai-stats {
-  display: flex;
-  gap: 16px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  opacity: 0.85;
+    radial-gradient(
+      circle at 80% 30%,
+      rgba(90, 200, 255, 0.14),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 50% 80%,
+      rgba(180, 120, 255, 0.12),
+      transparent 55%
+    ),
+    linear-gradient(
+      180deg,
+      #06060f 0%,
+      #0b0b1d 45%,
+      #070711 100%
+    );
 }

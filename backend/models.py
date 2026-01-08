@@ -8,6 +8,7 @@ from sqlalchemy import (
     JSON,
 )
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 from database import Base
 
 # ======================================================
@@ -29,67 +30,101 @@ class User(Base):
     country = Column(String(100), nullable=True)
     profile_image = Column(String(255), nullable=True)
 
-    # role system (already used)
     role = Column(String(20), default="user")  # user | admin
 
 
 # ======================================================
-# WORKOUT MODEL (MATCHES Workout.tsx EXACTLY)
+# WORKOUT MODEL (UNCHANGED – CORE SOURCE OF TRUTH)
 # ======================================================
 class Workout(Base):
     __tablename__ = "workouts"
 
     id = Column(Integer, primary_key=True, index=True)
 
-    # 🔗 Link to logged-in user
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE")
+    )
 
-    # ========== FORM DATA ==========
     name = Column(String(100))
     age = Column(Integer)
 
     weight = Column(Integer)
-    weight_unit = Column(String(10))        # kg | lbs
+    weight_unit = Column(String(10))
 
     height = Column(Integer)
-    height_unit = Column(String(10))        # cm | inches
+    height_unit = Column(String(10))
 
     blood_group = Column(String(5))
 
-    fitness_goal = Column(String(50))       # weight loss, muscle transformation
-    medical_condition = Column(String(50))  # none, diabetes, bp
-    workout_preference = Column(String(50)) # strength, cardio, balanced
+    fitness_goal = Column(String(50))
+    medical_condition = Column(String(50))
+    workout_preference = Column(String(50))
 
-    # ========== AI RESULT ==========
     workout_plan = Column(Text)
 
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    created_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now()
+    )
+
+    # 🧠 SAFE RELATIONSHIP (NO DB CHANGE)
+    normalized_exercises = relationship(
+        "NormalizedExercise",
+        back_populates="workout",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
 
 
 # ======================================================
-# DIET MODEL (NEW – MATCHES Diet.tsx & MySQL TABLE)
+# 🧠 NORMALIZED EXERCISE MEMORY (NEW – SAFE ADDITION)
+# ======================================================
+class NormalizedExercise(Base):
+    __tablename__ = "normalized_exercises"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    workout_id = Column(
+        Integer,
+        ForeignKey("workouts.id", ondelete="CASCADE"),
+        nullable=False
+    )
+
+    name = Column(String(255), nullable=False)
+    sets = Column(Integer, nullable=True)
+    reps = Column(String(50), nullable=True)
+    rest = Column(String(50), nullable=True)
+
+    # Relationship back to workout
+    workout = relationship(
+        "Workout",
+        back_populates="normalized_exercises"
+    )
+
+
+# ======================================================
+# DIET MODEL (UNCHANGED – SAFE)
 # ======================================================
 class Diet(Base):
     __tablename__ = "diets"
 
     id = Column(Integer, primary_key=True, index=True)
 
-    # 🔗 Link to logged-in user
     user_id = Column(
         Integer,
         ForeignKey("users.id", ondelete="SET NULL"),
         nullable=True
     )
 
-    # ========== FORM DATA ==========
     name = Column(String(100))
     age = Column(Integer)
 
     weight = Column(Integer)
-    weight_unit = Column(String(10))        # kg | lbs
+    weight_unit = Column(String(10))
 
     height = Column(Integer)
-    height_unit = Column(String(10))        # cm | inches
+    height_unit = Column(String(10))
 
     blood_group = Column(String(5))
 
@@ -97,36 +132,59 @@ class Diet(Base):
     medical_condition = Column(String(50))
     diet_preference = Column(String(50))
 
-    # ========== AI RESULT ==========
     diet_plan = Column(Text)
 
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    created_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now()
+    )
 
 
 # ======================================================
-# WORKOUT TIPS HISTORY (NEW – SAFE ADDITION)
+# WORKOUT TIPS HISTORY (UNCHANGED – SAFE)
 # ======================================================
 class WorkoutTipHistory(Base):
     __tablename__ = "workout_tip_history"
 
     id = Column(Integer, primary_key=True, index=True)
 
-    # 🔗 Link to logged-in user
     user_id = Column(
         Integer,
         ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False
     )
 
-    # 🔗 Optional link to workout
     workout_id = Column(
         Integer,
         ForeignKey("workouts.id", ondelete="SET NULL"),
         nullable=True
     )
 
-    # 🧠 Stored AI tips (warmup / workout / recovery)
     tips = Column(JSON, nullable=False)
+
+    created_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now()
+    )
+# ======================================================
+# 🧠 AI INSIGHTS (LONG-TERM MEMORY)
+# ======================================================
+class AIInsight(Base):
+    __tablename__ = "ai_insights"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False
+    )
+
+    # optional reference (can grow later)
+    source = Column(String(50), default="workout")
+
+    # 🧠 Stored intelligence
+    insights = Column(JSON, nullable=False)
 
     created_at = Column(
         DateTime(timezone=True),

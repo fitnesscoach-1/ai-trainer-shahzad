@@ -1,0 +1,110 @@
+/* ===============================
+   WORKOUT GOAL GRID
+================================ */
+
+.goal-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 16px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .goal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===============================
+   WORKOUT GOAL CARD
+================================ */
+
+.goal-card {
+  position: relative;
+  background: linear-gradient(145deg, #0b1220, #0e1628);
+  border-radius: 18px;
+  padding: 18px 16px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+/* Glow layer */
+.goal-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: radial-gradient(
+    circle at top,
+    rgba(124, 92, 255, 0.25),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Hover effect */
+.goal-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 30px rgba(124, 92, 255, 0.25);
+}
+
+.goal-card:hover::before {
+  opacity: 1;
+}
+
+/* Active / Selected */
+.goal-card.active {
+  border-color: #7c5cff;
+  box-shadow: 0 0 35px rgba(124, 92, 255, 0.45);
+}
+
+.goal-card.active::before {
+  opacity: 1;
+}
+
+/* ===============================
+   CARD CONTENT
+================================ */
+
+.goal-card img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  z-index: 1;
+  position: relative;
+}
+
+.goal-card h4 {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  z-index: 1;
+  position: relative;
+}
+
+.goal-card p {
+  color: #9aa4c7;
+  font-size: 12px;
+  z-index: 1;
+  position: relative;
+}
+
+/* ===============================
+   ACCESSIBILITY / FEEDBACK
+================================ */
+
+.goal-card:focus-visible {
+  outline: 2px solid #7c5cff;
+  outline-offset: 3px;
+}
+
+.goal-card:active {
+  transform: scale(0.97);
+}

@@ -1,0 +1,45 @@
+/* ===============================
+   HISTORY HEADER
+   AI MEMORY VAULT
+================================ */
+
+.history-header {
+  text-align: center;
+  padding: 48px 20px 36px;
+}
+
+/* ===============================
+   TITLE
+================================ */
+
+.history-title {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+
+  background: linear-gradient(
+    135deg,
+    #7dd3fc,
+    #c084fc,
+    #f472b6
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    0 0 40px rgba(168, 85, 247, 0.35);
+}
+
+/* ===============================
+   SUBTITLE
+================================ */
+
+.history-subtitle {
+  margin-top: 12px;
+  font-size: 1.05rem;
+  font-weight: 500;
+
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.4px;
+}

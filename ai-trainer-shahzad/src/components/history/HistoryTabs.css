@@ -1,0 +1,87 @@
+/* ===============================
+   HISTORY TABS
+   AI MEMORY VAULT
+================================ */
+
+.history-tabs {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: 20px 0 32px;
+}
+
+/* ===============================
+   TAB BUTTON
+================================ */
+
+.history-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 16px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  color: #e5e7eb;
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.history-tab:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+/* ===============================
+   ACTIVE TAB
+================================ */
+
+.history-tab.active {
+  background: linear-gradient(
+    135deg,
+    rgba(120, 220, 255, 0.45),
+    rgba(180, 120, 255, 0.45)
+  );
+
+  color: #050510;
+
+  box-shadow:
+    0 0 0 1px rgba(120, 220, 255, 0.6),
+    0 8px 30px rgba(120, 220, 255, 0.45);
+}
+
+/* ===============================
+   TAB AVATAR (ICON SIZE)
+================================ */
+
+.tab-avatar {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+
+  border-radius: 50%;
+  object-fit: cover;
+
+  border: 1px solid rgba(180, 160, 255, 0.6);
+
+  box-shadow:
+    0 0 6px rgba(120, 220, 255, 0.45);
+}
+
+.history-tab.active .tab-avatar {
+  box-shadow:
+    0 0 12px rgba(120, 220, 255, 0.8);
+}

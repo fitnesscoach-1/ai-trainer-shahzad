@@ -1,12 +1,21 @@
-from pydantic import BaseModel, EmailStr
-from typing import Optional, List
+from pydantic import BaseModel, EmailStr, Field
+from typing import Optional, List, Dict
 from datetime import datetime
 
+# ======================================================
+# 🔒 BASE CONFIG (Pydantic v2 + backward compatibility)
+# ======================================================
 
-# =========================
-# USER BASE (Shared Fields)
-# =========================
-class UserBase(BaseModel):
+class ORMBaseModel(BaseModel):
+    class Config:
+        from_attributes = True
+        orm_mode = True  # backward compatibility (safe)
+
+# ======================================================
+# USER SCHEMAS
+# ======================================================
+
+class UserBase(ORMBaseModel):
     email: EmailStr
     first_name: Optional[str] = None
     last_name: Optional[str] = None
@@ -18,35 +27,19 @@ class UserBase(BaseModel):
     profile_image: Optional[str] = None
 
 
-# =========================
-# SIGNUP SCHEMA
-# =========================
 class UserCreate(UserBase):
     password: str
 
 
-# =========================
-# LOGIN SCHEMA
-# =========================
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
 
-# =========================
-# USER RESPONSE (DB OUTPUT)
-# =========================
 class UserResponse(UserBase):
     id: int
 
-    class Config:
-        from_attributes = True  # Pydantic v2
-        orm_mode = True         # Pydantic v1 compatibility
 
-
-# =========================
-# PROFILE UPDATE (PUT /me)
-# =========================
 class UserUpdate(BaseModel):
     first_name: Optional[str] = None
     last_name: Optional[str] = None
@@ -58,25 +51,18 @@ class UserUpdate(BaseModel):
     profile_image: Optional[str] = None
 
 
-# =========================
-# CHANGE PASSWORD
-# =========================
 class ChangePassword(BaseModel):
     old_password: str
     new_password: str
     confirm_password: str
 
 
-# =========================
-# TOKEN RESPONSE
-# =========================
 class Token(BaseModel):
     access_token: str
     token_type: str
 
-
 # ======================================================
-# WORKOUT GENERATOR SCHEMAS
+# WORKOUT GENERATOR (INPUT)
 # ======================================================
 
 class WorkoutCreate(BaseModel):
@@ -90,13 +76,15 @@ class WorkoutCreate(BaseModel):
     height_unit: str
 
     blood_group: str
-
     fitness_goal: str
     medical_condition: str
     workout_preference: str
 
+# ======================================================
+# WORKOUT RESPONSE (ORIGINAL – PRESERVED)
+# ======================================================
 
-class WorkoutResponse(BaseModel):
+class WorkoutResponse(ORMBaseModel):
     id: int
     user_id: int
 
@@ -118,28 +106,62 @@ class WorkoutResponse(BaseModel):
     workout_plan: Optional[str]
     created_at: datetime
 
-    class Config:
-        from_attributes = True
-        orm_mode = True
-
-
 # ======================================================
-# WORKOUT TIPS (NEW – SAFE ADDITION)
+# 🧠 WORKOUT HISTORY (STABLE CONTRACT)
 # ======================================================
 
-class WorkoutTipsResponse(BaseModel):
+class WorkoutHistoryResponse(ORMBaseModel):
+    id: int
+    created_at: datetime
+
+    name: str
+    fitness_goal: str
+
+    workout_plan: Optional[str]
+    duration: Optional[str] = None
+
+    # ⚠️ SAFE DEFAULT (prevents mutable bugs)
+    exercises: List[str] = Field(default_factory=list)
+
+# ======================================================
+# WORKOUT TIPS (GENERATION RESPONSE)
+# ======================================================
+
+class WorkoutTipsGenerateResponse(ORMBaseModel):
     warmup: List[str]
     workout: List[str]
     recovery: List[str]
     created_at: datetime
 
-    class Config:
-        from_attributes = True
-        orm_mode = True
+# ======================================================
+# WORKOUT TIPS (SAVE REQUEST)
+# ======================================================
 
+class WorkoutTipsSave(BaseModel):
+    tips: Dict
 
 # ======================================================
-# DIET GENERATOR SCHEMAS
+# WORKOUT TIPS (GENERIC RESPONSE – COMPATIBILITY)
+# ======================================================
+
+class WorkoutTipsResponse(ORMBaseModel):
+    id: int
+    workout_id: Optional[int] = None
+    tips: Dict
+    created_at: datetime
+
+# ======================================================
+# WORKOUT TIPS HISTORY (STORED MEMORY)
+# ======================================================
+
+class WorkoutTipHistoryResponse(ORMBaseModel):
+    id: int
+    workout_id: Optional[int]
+    tips: Dict
+    created_at: datetime
+
+# ======================================================
+# DIET GENERATOR
 # ======================================================
 
 class DietCreate(BaseModel):
@@ -147,59 +169,67 @@ class DietCreate(BaseModel):
     age: int
 
     weight: int
-    weight_unit: str          # kg | lbs
+    weight_unit: str
 
     height: int
-    height_unit: str          # cm | inches
+    height_unit: str
 
     blood_group: str
-
     fitness_goal: str
     medical_condition: str
     diet_preference: str
 
 
-class DietResponse(DietCreate):
+class DietResponse(ORMBaseModel):
     id: int
     user_id: Optional[int]
+
+    name: str
+    age: int
+
+    weight: int
+    weight_unit: str
+
+    height: int
+    height_unit: str
+
+    blood_group: str
+    fitness_goal: str
+    medical_condition: str
+    diet_preference: str
+
     diet_plan: Optional[str]
     created_at: datetime
 
-    class Config:
-        from_attributes = True
-        orm_mode = True
+# ======================================================
+# CONTACT FORM
+# ======================================================
 
-
-# =========================
-# CONTACT FORM SCHEMA
-# =========================
 class ContactCreate(BaseModel):
     name: str
     email: EmailStr
     message: str
+
 # ======================================================
-# WORKOUT TIPS (SAVE + RESPONSE)
+# 🧠 NORMALIZED EXERCISE (AI MEMORY UNIT)
 # ======================================================
 
-class WorkoutTipsSave(BaseModel):
-    tips: dict
+class ExerciseBlock(BaseModel):
+    name: str
+    sets: Optional[int] = None
+    reps: Optional[str] = None
+    rest: Optional[str] = None
 
 
-class WorkoutTipsResponse(BaseModel):
-    warmup: list[str]
-    workout: list[str]
-    recovery: list[str]
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
-# =========================
-# WORKOUT TIPS HISTORY RESPONSE
-# =========================
-class WorkoutTipHistoryResponse(BaseModel):
+class NormalizedWorkout(BaseModel):
+    exercises: List[ExerciseBlock]
+# ======================================================
+# 🧠 AI INSIGHTS RESPONSE
+# ======================================================
+class AIInsightResponse(BaseModel):
     id: int
-    workout_id: int | None
-    tips: dict
+    source: str
+    insights: list[str]
     created_at: datetime
 
     class Config:

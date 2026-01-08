@@ -1,32 +1,60 @@
-from fastapi import FastAPI, Depends, HTTPException, status, Form, Body
+from fastapi import (
+    FastAPI,
+    Depends,
+    HTTPException,
+    status,
+    Form,
+    Body,
+)
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
+# =========================
+# LOCAL IMPORTS (PRESERVED)
+# =========================
 import models
 import schemas
 import auth
 from database import SessionLocal, engine
 from email_service import send_contact_email
-
 from openai_service import (
     generate_ai_workout,
     generate_ai_diet,
 )
 
+# 🧠 AI MEMORY
+from app.core.workout_normalizer import normalize_workout_plan
+from app.core.ai_insight_engine import generate_ai_insights
+
 # =========================
 # APP INIT
 # =========================
-app = FastAPI(title="AI Trainer Shahzad API")
+app = FastAPI(
+    title="AI Trainer Shahzad API",
+    version="1.0.0",
+)
 
 # =========================
-# CORS (FIXED & SAFE)
+# CORS (PRESERVED)
 # =========================
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
+        "http://localhost:5174",
+        "http://localhost:5175",
+        "http://localhost:5176",
+        "http://localhost:5177",
+        "http://localhost:5178",
+        "http://localhost:5179",
         "http://127.0.0.1:5173",
+        "http://127.0.0.1:5174",
+        "http://127.0.0.1:5175",
+        "http://127.0.0.1:5176",
+        "http://127.0.0.1:5177",
+        "http://127.0.0.1:5178",
+        "http://127.0.0.1:5179",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -37,6 +65,7 @@ app.add_middleware(
 # DATABASE
 # =========================
 models.Base.metadata.create_all(bind=engine)
+
 
 def get_db():
     db = SessionLocal()
@@ -50,11 +79,13 @@ def get_db():
 # =========================
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
+
 def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db),
 ):
     payload = auth.verify_token(token)
+
     if not payload:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -76,24 +107,16 @@ def get_current_user(
     return user
 
 # =========================
-# AUTH ROUTES
+# AUTH ROUTES (UNCHANGED)
 # =========================
 @app.post("/signup")
 def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    existing_user = (
-        db.query(models.User)
-        .filter(models.User.email == user.email)
-        .first()
-    )
-
-    if existing_user:
+    if db.query(models.User).filter(models.User.email == user.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
-
-    hashed_password = auth.hash_password(user.password)
 
     new_user = models.User(
         email=user.email,
-        password=hashed_password,
+        password=auth.hash_password(user.password),
         first_name=user.first_name,
         last_name=user.last_name,
         username=user.username,
@@ -110,29 +133,21 @@ def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
     return {"message": "User created successfully"}
 
+
 @app.post("/login", response_model=schemas.Token)
 def login(
     username: str = Form(...),
     password: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    db_user = (
-        db.query(models.User)
-        .filter(models.User.email == username)
-        .first()
-    )
+    user = db.query(models.User).filter(models.User.email == username).first()
 
-    if not db_user or not auth.verify_password(password, db_user.password):
+    if not user or not auth.verify_password(password, user.password):
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
-    access_token = auth.create_access_token(
-        data={"sub": db_user.email}
-    )
+    token = auth.create_access_token(data={"sub": user.email})
 
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-    }
+    return {"access_token": token, "token_type": "bearer"}
 
 # =========================
 # PROFILE
@@ -142,7 +157,7 @@ def get_profile(current_user: models.User = Depends(get_current_user)):
     return current_user
 
 # =========================
-# WORKOUT
+# WORKOUT GENERATION
 # =========================
 @app.post("/workouts/generate", response_model=schemas.WorkoutResponse)
 def generate_workout(
@@ -154,16 +169,7 @@ def generate_workout(
 
     workout = models.Workout(
         user_id=current_user.id,
-        name=data.name,
-        age=data.age,
-        weight=data.weight,
-        weight_unit=data.weight_unit,
-        height=data.height,
-        height_unit=data.height_unit,
-        blood_group=data.blood_group,
-        fitness_goal=data.fitness_goal,
-        medical_condition=data.medical_condition,
-        workout_preference=data.workout_preference,
+        **data.dict(),
         workout_plan=workout_text,
     )
 
@@ -173,18 +179,74 @@ def generate_workout(
 
     return workout
 
-@app.get("/workouts", response_model=list[schemas.WorkoutResponse])
-def get_workouts(
+# =========================
+# 🧠 WORKOUT MEMORY
+# =========================
+@app.get("/workouts/memory")
+def get_workouts_with_memory(
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    return (
+    workouts = (
         db.query(models.Workout)
         .filter(models.Workout.user_id == current_user.id)
         .order_by(models.Workout.created_at.desc())
         .all()
     )
 
+    return [
+        {
+            "id": w.id,
+            "created_at": w.created_at,
+            "name": w.name,
+            "fitness_goal": w.fitness_goal,
+            "workout_plan": w.workout_plan,
+            "normalized_exercises": normalize_workout_plan(w.workout_plan),
+        }
+        for w in workouts
+    ]
+
+# =========================
+# 🧠 AI INSIGHTS (SINGLE SOURCE OF TRUTH)
+# =========================
+@app.get("/workouts/insights")
+def get_workout_insights(
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    workouts = (
+        db.query(models.Workout)
+        .filter(models.Workout.user_id == current_user.id)
+        .order_by(models.Workout.created_at.desc())
+        .limit(10)
+        .all()
+    )
+
+    normalized_sets = [
+        normalize_workout_plan(w.workout_plan)
+        for w in workouts
+    ]
+
+    insights = generate_ai_insights(normalized_sets)
+
+    # 🧠 SAVE LONG-TERM MEMORY
+    memory = models.AIInsight(
+        user_id=current_user.id,
+        source="workout",
+        insights=insights,
+    )
+
+    db.add(memory)
+    db.commit()
+
+    return {
+        "insights": insights,
+        "saved": True,
+    }
+
+# =========================
+# DELETE WORKOUT
+# =========================
 @app.delete("/workouts/{workout_id}")
 def delete_workout(
     workout_id: int,
@@ -209,7 +271,7 @@ def delete_workout(
     return {"message": "Workout deleted successfully"}
 
 # =========================
-# DIET
+# DIET (UNCHANGED)
 # =========================
 @app.post("/diet/generate", response_model=schemas.DietResponse)
 def generate_diet(
@@ -221,16 +283,7 @@ def generate_diet(
 
     diet = models.Diet(
         user_id=current_user.id,
-        name=data.name,
-        age=data.age,
-        weight=data.weight,
-        weight_unit=data.weight_unit,
-        height=data.height,
-        height_unit=data.height_unit,
-        blood_group=data.blood_group,
-        fitness_goal=data.fitness_goal,
-        medical_condition=data.medical_condition,
-        diet_preference=data.diet_preference,
+        **data.dict(),
         diet_plan=diet_text,
     )
 
@@ -239,6 +292,7 @@ def generate_diet(
     db.refresh(diet)
 
     return diet
+
 
 @app.get("/diets", response_model=list[schemas.DietResponse])
 def get_diets(
@@ -261,22 +315,16 @@ def contact(
     email: str = Body(...),
     message: str = Body(...),
 ):
-    sent = send_contact_email(
-        name=name,
-        email=email,
-        message=message,
-    )
-
-    if not sent:
+    if not send_contact_email(name, email, message):
         raise HTTPException(status_code=500, detail="Failed to send email")
 
     return {"message": "Message sent successfully"}
 
 # =========================
-# WORKOUT TIPS ROUTER
+# EXTRA ROUTERS (PRESERVED)
 # =========================
 import workout_tips
-app.include_router(workout_tips.router)
-
 import workout_tip_history
+
+app.include_router(workout_tips.router)
 app.include_router(workout_tip_history.router)

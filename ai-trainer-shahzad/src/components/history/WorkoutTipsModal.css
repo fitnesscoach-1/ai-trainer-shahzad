@@ -1,0 +1,71 @@
+.wtm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.wtm-modal {
+  width: 520px;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  padding: 28px;
+  border-radius: 22px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(90, 120, 255, 0.18),
+    rgba(160, 90, 255, 0.18)
+  );
+
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(180, 160, 255, 0.35);
+
+  box-shadow: 0 30px 100px rgba(120, 90, 255, 0.5);
+  color: #f8fafc;
+}
+
+.wtm-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: #e5e7eb;
+  cursor: pointer;
+}
+
+.wtm-title {
+  font-size: 1.4rem;
+  margin-bottom: 18px;
+}
+
+.wtm-section {
+  margin-bottom: 18px;
+}
+
+.wtm-section h4 {
+  font-size: 0.9rem;
+  color: #93c5fd;
+  margin-bottom: 6px;
+}
+
+.wtm-section ul {
+  padding-left: 18px;
+}
+
+.wtm-section li {
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+  opacity: 0.9;
+}
+
+.wtm-loading {
+  text-align: center;
+  opacity: 0.85;
+}

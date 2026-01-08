@@ -5,10 +5,9 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 
 import Workout from "./pages/Workout";
-import WorkoutHistory from "./pages/Workouthistory";
 import Diet from "./pages/Diet";
 import DietHistory from "./pages/DietHistory";
 import Contact from "./pages/Contact";
@@ -16,8 +15,11 @@ import Contact from "./pages/Contact";
 // ✅ AI WORKOUT GENERATOR PAGE
 import AIWorkoutGenerator from "./pages/AIWorkoutGenerator";
 
-// ✅ WORKOUT TIPS PAGE (NEW)
+// ✅ WORKOUT TIPS PAGE
 import WorkoutTips from "./pages/WorkoutTips";
+
+// ✅ AI MEMORY VAULT (NEW)
+import WorkoutHistory from "./pages/Workouthistory";
 function App() {
   return (
     <>
@@ -43,7 +45,7 @@ function App() {
           }
         />
 
-        {/* 🔥 WORKOUT DASHBOARD (CARDS PAGE) */}
+        {/* 🔥 WORKOUT DASHBOARD */}
         <Route
           path="/workouts"
           element={
@@ -53,7 +55,7 @@ function App() {
           }
         />
 
-        {/* 🔥 AI WORKOUT GENERATOR (FORM PAGE) */}
+        {/* 🔥 AI WORKOUT GENERATOR */}
         <Route
           path="/ai-workout-generator"
           element={
@@ -63,7 +65,7 @@ function App() {
           }
         />
 
-        {/* 🔥 WORKOUT TIPS PAGE (NEW) */}
+        {/* 🔥 WORKOUT TIPS */}
         <Route
           path="/workout-tips"
           element={
@@ -92,6 +94,16 @@ function App() {
           }
         />
 
+        {/* 🌌 AI MEMORY VAULT (NEW MASTER HISTORY PAGE) */}
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <WorkoutHistory/>
+            </ProtectedRoute>
+          }
+        />
+
         {/* ================= PROFILE ================= */}
         <Route
           path="/profile"
@@ -102,7 +114,7 @@ function App() {
           }
         />
 
-        {/* ================= ADMIN ROUTE ================= */}
+        {/* ================= ADMIN ================= */}
         <Route
           path="/admin"
           element={

@@ -13,6 +13,7 @@
     "axios": "^1.13.2",
     "browser-image-compression": "^2.0.2",
     "country-state-city": "^3.2.1",
+    "lucide-react": "^0.562.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-easy-crop": "^5.5.6",

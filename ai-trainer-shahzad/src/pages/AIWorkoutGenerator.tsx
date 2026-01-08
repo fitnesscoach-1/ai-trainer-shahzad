@@ -1,320 +1,266 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import { useWorkoutForm } from "../hooks/useWorkoutForm";
+import WorkoutGoalSelector from "../components/workout/WorkoutGoalSelector";
+import api from "../api/axios";
+
 import "./AIWorkoutGenerator.css";
+
+/* ===============================
+   CONSTANTS (UI ONLY)
+================================ */
+const BLOOD_GROUPS = [
+  "A+",
+  "A-",
+  "B+",
+  "B-",
+  "AB+",
+  "AB-",
+  "O+",
+  "O-",
+];
+
+const MEDICAL_CONDITIONS = [
+  "Thyroid",
+  "Diabetes",
+  "Blood Pressure",
+  "Cholesterol",
+  "Asthma",
+  "Heart Condition",
+  "None",
+];
 
 export default function AIWorkoutGenerator() {
   const navigate = useNavigate();
+  const { form, updateField } = useWorkoutForm();
 
-  /* ===============================
-     FORM STATE (UNCHANGED)
-  ================================ */
-  const [formData, setFormData] = useState({
-    name: "",
-    age: "",
-    weight: "",
-    weightUnit: "kg",
-    height: "",
-    heightUnit: "cm",
-    bloodGroup: "",
-    fitnessGoal: "weight loss",
-    medicalCondition: "none",
-    workoutPreference: "balanced",
-  });
-
-  const [workoutPlan, setWorkoutPlan] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showResult, setShowResult] = useState(false);
+  const [error, setError] = useState("");
 
   /* ===============================
-     HANDLE INPUT CHANGE (BUG FIX)
-  ================================ */
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  /* ===============================
-     REAL AI WORKOUT GENERATOR
-     (FASTAPI + MYSQL + OPENAI)
-  ================================ */
-  const generateWorkout = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+     GENERATE WORKOUT
+  =============================== */
+  const handleGenerate = async () => {
+    if (!form.name || !form.age || !form.weight || !form.height) {
+      setError("Please fill in all required fields.");
+      return;
+    }
 
     try {
-      const token = localStorage.getItem("token");
+      setLoading(true);
+      setError("");
 
-      if (!token) {
-        alert("Please login again.");
-        return;
-      }
+      const response = await api.post("/workouts/generate", form);
 
-      const response = await axios.post(
-        "http://127.0.0.1:8000/workouts/generate",
-        {
-          name: formData.name,
-          age: Number(formData.age),
-          weight: Number(formData.weight),
-          weight_unit: formData.weightUnit,
-          height: Number(formData.height),
-          height_unit: formData.heightUnit,
-          blood_group: formData.bloodGroup,
-          fitness_goal: formData.fitnessGoal,
-          medical_condition: formData.medicalCondition,
-          workout_preference: formData.workoutPreference,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      /* ===============================
-         ORIGINAL SUCCESS LOGIC
-      ================================ */
-      setWorkoutPlan(response.data.workout_plan);
-      setShowResult(true);
-
-      /* ===============================
-         STEP 12 — PROGRESS INTEGRATION
-         (FRONTEND ONLY, SAFE)
-      ================================ */
-      const today = new Date().toISOString().split("T")[0];
-
-      const history = JSON.parse(
-        localStorage.getItem("workoutHistory") || "[]"
-      );
-
-      if (!history.includes(today)) {
-        history.push(today);
-        localStorage.setItem(
-          "workoutHistory",
-          JSON.stringify(history)
-        );
-      }
-
-      // Unlock AI insights / progress summary
-      localStorage.setItem("hasGeneratedWorkout", "true");
-
-    } catch (error) {
-      console.error(error);
-      alert("Failed to generate workout. Please try again.");
+      navigate("/workout-result", {
+        state: { workout: response.data },
+      });
+    } catch (err) {
+      console.error(err);
+      setError("Failed to generate workout. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  /* ===============================
-     RESET (REGENERATE)
-  ================================ */
-  const resetForm = () => {
-    setShowResult(false);
-    setWorkoutPlan("");
-    setFormData({
-      name: "",
-      age: "",
-      weight: "",
-      weightUnit: "kg",
-      height: "",
-      heightUnit: "cm",
-      bloodGroup: "",
-      fitnessGoal: "weight loss",
-      medicalCondition: "none",
-      workoutPreference: "balanced",
-    });
-  };
-
-  /* ===============================
-     SAVE WORKOUT (UX CONFIRMATION)
-  ================================ */
-  const saveWorkout = () => {
-    alert("Workout saved successfully!");
-    navigate("/workout-history");
-  };
-
-  /* ===============================
-     UI (UNCHANGED)
-  ================================ */
   return (
-    <div className="workout-page">
-      {!showResult ? (
-        <form className="workout-form full-bg" onSubmit={generateWorkout}>
-          <h1>AI Workout Generator</h1>
-          <p className="subtitle">
-            Get workouts based on your body & fitness goal
-          </p>
+    <div className="ai-bg">
+      <div className="ai-frame">
+        <div className="ai-workout-generator">
 
-          {/* Name */}
-          <div className="field">
-            <label>Name</label>
-            <input
-              type="text"
-              name="name"
-              placeholder="Your name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+          {/* ===============================
+              HEADER
+          =============================== */}
+          <div className="generator-header">
+            <h2>AI Workout Generator</h2>
+            <p>Personalized training plan powered by AI</p>
           </div>
 
-          {/* Age */}
-          <div className="field">
-            <label>Age</label>
-            <input
-              type="number"
-              name="age"
-              placeholder="Enter your age"
-              value={formData.age}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          {/* ===============================
+              BASIC INFO (HUD STYLE)
+          =============================== */}
+          <div className="hud-section">
 
-          {/* Weight */}
-          <div className="field-row">
-            <div className="field">
+            <div className="hud-row">
+              <label>Name</label>
+              <input
+                placeholder="Tell me your name..."
+                value={form.name}
+                onChange={(e) => updateField("name", e.target.value)}
+              />
+            </div>
+
+            <div className="hud-row">
+              <label>Age</label>
+              <input
+                type="number"
+                placeholder="Your age"
+                value={form.age}
+                onChange={(e) =>
+                  updateField(
+                    "age",
+                    e.target.value ? Number(e.target.value) : ""
+                  )
+                }
+              />
+            </div>
+
+            <div className="hud-row">
               <label>Weight</label>
-              <input
-                type="number"
-                name="weight"
-                placeholder="Enter weight"
-                value={formData.weight}
-                onChange={handleChange}
-                required
-              />
+              <div className="hud-inline">
+                <input
+                  type="number"
+                  placeholder="Weight"
+                  value={form.weight}
+                  onChange={(e) =>
+                    updateField(
+                      "weight",
+                      e.target.value ? Number(e.target.value) : ""
+                    )
+                  }
+                />
+                <select
+                  value={form.weight_unit}
+                  onChange={(e) =>
+                    updateField(
+                      "weight_unit",
+                      e.target.value as "kg" | "lb"
+                    )
+                  }
+                >
+                  <option value="kg">kg</option>
+                  <option value="lb">lb</option>
+                </select>
+              </div>
             </div>
-            <div className="field">
-              <label>Unit</label>
-              <select
-                name="weightUnit"
-                value={formData.weightUnit}
-                onChange={handleChange}
-              >
-                <option value="kg">Kg</option>
-                <option value="lbs">Lbs</option>
-              </select>
-            </div>
-          </div>
 
-          {/* Height */}
-          <div className="field-row">
-            <div className="field">
+            <div className="hud-row">
               <label>Height</label>
-              <input
-                type="number"
-                name="height"
-                placeholder="Enter height"
-                value={formData.height}
-                onChange={handleChange}
-                required
-              />
+              <div className="hud-inline">
+                <input
+                  type="number"
+                  placeholder="Height"
+                  value={form.height}
+                  onChange={(e) =>
+                    updateField(
+                      "height",
+                      e.target.value ? Number(e.target.value) : ""
+                    )
+                  }
+                />
+                <select
+                  value={form.height_unit}
+                  onChange={(e) =>
+                    updateField(
+                      "height_unit",
+                      e.target.value as "cm" | "ft"
+                    )
+                  }
+                >
+                  <option value="cm">cm</option>
+                  <option value="ft">ft</option>
+                </select>
+              </div>
             </div>
-            <div className="field">
-              <label>Unit</label>
-              <select
-                name="heightUnit"
-                value={formData.heightUnit}
-                onChange={handleChange}
-              >
-                <option value="cm">Cm</option>
-                <option value="inches">Inches</option>
-              </select>
+
+          </div>
+
+          {/* ===============================
+              BLOOD GROUP
+          =============================== */}
+          <section className="pill-section">
+            <h3>Blood Group</h3>
+            <div className="pill-row">
+              {BLOOD_GROUPS.map((group) => (
+                <button
+                  key={group}
+                  type="button"
+                  className={`pill ${
+                    form.blood_group === group ? "active" : ""
+                  }`}
+                  onClick={() => updateField("blood_group", group)}
+                >
+                  {group}
+                </button>
+              ))}
             </div>
+          </section>
+
+          {/* ===============================
+              MEDICAL CONDITIONS
+          =============================== */}
+          <section className="pill-section">
+            <h3>Medical Conditions</h3>
+            <div className="pill-row">
+              {MEDICAL_CONDITIONS.map((condition) => (
+                <button
+                  key={condition}
+                  type="button"
+                  className={`pill ${
+                    form.medical_condition === condition ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    updateField("medical_condition", condition)
+                  }
+                >
+                  {condition}
+                </button>
+              ))}
+            </div>
+          </section>
+
+          {/* ===============================
+              FITNESS GOAL
+          =============================== */}
+          <section className="goal-section">
+            <h3>Select Fitness Goal</h3>
+            <WorkoutGoalSelector
+              onSelect={(goal) => updateField("fitness_goal", goal)}
+            />
+          </section>
+
+          {/* ===============================
+              WORKOUT PREFERENCE
+          =============================== */}
+          <input
+            className="full-width"
+            placeholder="Workout Preference (Gym / Home / Cardio)"
+            value={form.workout_preference}
+            onChange={(e) =>
+              updateField("workout_preference", e.target.value)
+            }
+          />
+
+          {/* ===============================
+              TIP (REFERENCE STYLE)
+          =============================== */}
+          <div className="ai-tip">
+            ▶ Tip: Strength training selected — Atlas is preparing your plan.
           </div>
 
-          {/* Blood Group */}
-          <div className="field">
-            <label>Blood Group</label>
-            <select
-              name="bloodGroup"
-              value={formData.bloodGroup}
-              onChange={handleChange}
-              required
+          {/* ===============================
+              ERROR
+          =============================== */}
+          {error && <div className="error-text">{error}</div>}
+
+          {/* ===============================
+              GENERATE BUTTON
+          =============================== */}
+          <div className="generate-container">
+            <button
+              className="generate-btn"
+              onClick={handleGenerate}
+              disabled={loading}
             >
-              <option value="">Select Blood Group</option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
-          </div>
-
-          {/* Fitness Goal */}
-          <div className="field">
-            <label>Fitness Goal</label>
-            <select
-              name="fitnessGoal"
-              value={formData.fitnessGoal}
-              onChange={handleChange}
-            >
-              <option value="weight loss">Weight Loss</option>
-              <option value="weight gain">Weight Gain</option>
-              <option value="muscle transformation">
-                Muscle Transformation
-              </option>
-              <option value="body toning">Body Toning</option>
-            </select>
-          </div>
-
-          {/* Medical Condition */}
-          <div className="field">
-            <label>Medical Condition</label>
-            <select
-              name="medicalCondition"
-              value={formData.medicalCondition}
-              onChange={handleChange}
-            >
-              <option value="none">None</option>
-              <option value="diabetes">Diabetes</option>
-              <option value="thyroid">Thyroid</option>
-              <option value="blood pressure">Blood Pressure</option>
-              <option value="cholesterol">Cholesterol</option>
-            </select>
-          </div>
-
-          {/* Workout Preference */}
-          <div className="field">
-            <label>Workout Preference</label>
-            <select
-              name="workoutPreference"
-              value={formData.workoutPreference}
-              onChange={handleChange}
-            >
-              <option value="balanced">Balanced</option>
-              <option value="strength">Strength</option>
-              <option value="cardio">Cardio</option>
-              <option value="flexibility">Flexibility</option>
-            </select>
-          </div>
-
-          <button type="submit">
-            {loading ? "Generating AI Plan..." : "Generate Workout"}
-          </button>
-        </form>
-      ) : (
-        <div className="workout-result full-bg">
-          <pre>{workoutPlan}</pre>
-
-          <div className="result-buttons-container">
-            <button className="save-btn" onClick={saveWorkout}>
-              Save Workout
-            </button>
-            <button className="generate-again" onClick={resetForm}>
-              Regenerate
+              {loading
+                ? "AI is preparing your workout..."
+                : "Generate AI Workout"}
             </button>
           </div>
+
         </div>
-      )}
+      </div>
     </div>
   );
 }

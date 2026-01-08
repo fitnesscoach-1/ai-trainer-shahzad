@@ -1,9 +1,43 @@
+/* ===============================
+   ROOT / SCROLL STABILITY (UPGRADED – CRITICAL)
+   Fixes scrollbar bleed behind fixed navbar
+================================ */
+
+html {
+  overflow-y: scroll;            /* reserve scrollbar space */
+  scrollbar-gutter: stable;      /* 🔑 PREVENTS RIGHT STRIP */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ===============================
+   BASE / RESET (PRESERVED + HARDENED)
+================================ */
+
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  padding-right: 0 !important;   /* prevent scrollbar offset */
+  overflow-x: hidden;            /* safety */
+
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
   background: #0f172a;
   color: white;
+
+  letter-spacing: -0.01em;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ===============================
+   CONTAINER (PRESERVED)
+================================ */
 
 .container {
   height: 100vh;
@@ -12,37 +46,139 @@ body {
   justify-content: center;
   align-items: center;
   gap: 16px;
+  position: relative;
 }
+
+/* ===============================
+   LOGO / TITLE (PRESERVED)
+================================ */
 
 .logo {
   font-size: 3rem;
-  font-weight: bold;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+
+  background: linear-gradient(135deg, #7c7cff, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+
+/* ===============================
+   TAGLINE (PRESERVED)
+================================ */
 
 .tagline {
   opacity: 0.8;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #c7d2fe;
 }
+
+/* ===============================
+   BUTTON GROUP (PRESERVED)
+================================ */
 
 .buttons {
   display: flex;
   gap: 12px;
 }
 
+/* ===============================
+   BASE BUTTON (PRESERVED)
+================================ */
+
 button {
   padding: 10px 20px;
-  border-radius: 6px;
+  border-radius: 999px;
   border: none;
   cursor: pointer;
   font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
 }
+
+/* ===============================
+   PRIMARY BUTTON (PRESERVED)
+================================ */
 
 .primary {
-  background: #22c55e;
-  color: black;
+  background: linear-gradient(135deg, #22c55e, #4ade80);
+  color: #022c22;
+  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.45);
 }
 
+.primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+/* ===============================
+   SECONDARY BUTTON (PRESERVED)
+================================ */
+
 .secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.08);
   color: white;
-  border: 1px solid white;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+.secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ===============================
+   GLOBAL UI SAFETY (ADDED – SAFE)
+================================ */
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(120, 220, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* ===============================
+   FUTURISTIC SCROLLBAR (GLOBAL)
+================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 220, 255, 0.35);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 220, 255, 0.55);
+}
+/* ===============================
+   FORCE OVERLAY SCROLLBAR (FINAL FIX)
+================================ */
+
+/* Chrome / Edge / Brave / Opera */
+body {
+  overflow-y: overlay;
+}
+
+/* Safety */
+html {
+  overflow-x: hidden;
 }

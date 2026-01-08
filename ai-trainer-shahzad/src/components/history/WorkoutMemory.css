@@ -1,0 +1,165 @@
+/* ===============================
+   WORKOUT MEMORY (GROUPED)
+================================ */
+
+.workout-memory {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+/* ===============================
+   DATE GROUP
+================================ */
+
+.wm-group {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ===============================
+   DATE HEADER
+================================ */
+
+.wm-date-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+
+  color: #c7d2fe;
+  opacity: 0.9;
+}
+
+/* glowing dot like reference */
+.wm-date-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #7dd3fc, #c084fc);
+  box-shadow:
+    0 0 10px rgba(125, 211, 252, 0.8),
+    0 0 20px rgba(192, 132, 252, 0.6);
+}
+/* ===============================
+   DATE GROUP HEADER
+================================ */
+
+.wm-group {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.wm-date-header {
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+.wm-date-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #c7d2fe;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.wm-date-select input {
+  width: 16px;
+  height: 16px;
+  accent-color: #7dd3fc;
+}
+
+.wm-date-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7dd3fc;
+  box-shadow: 0 0 8px rgba(125, 211, 252, 0.9);
+}
+/* ===============================
+   FILTER PILL (RIGHT SIDE)
+================================ */
+
+.wm-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.wm-filter {
+  position: relative;
+}
+
+.wm-filter select {
+  appearance: none;
+  padding: 8px 36px 8px 16px;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  color: #e5e7eb;
+
+  background: linear-gradient(
+    135deg,
+    rgba(120, 220, 255, 0.25),
+    rgba(180, 120, 255, 0.25)
+  );
+
+  border-radius: 999px;
+  border: 1px solid rgba(180, 160, 255, 0.4);
+
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+}
+
+.wm-filter-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+/* ===============================
+   MOBILE WORKOUT MEMORY
+================================ */
+
+@media (max-width: 768px) {
+
+  .wm-toolbar {
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .wm-filter select {
+    font-size: 0.8rem;
+    padding: 8px 34px 8px 14px;
+  }
+
+  .wm-date-select {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .wm-filter select {
+    width: 100%;
+    max-width: 220px;
+  }
+
+}

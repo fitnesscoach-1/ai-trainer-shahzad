@@ -1,0 +1,145 @@
+/* ===============================
+   FLOATING ACTION BAR
+================================ */
+
+.history-action-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+
+  padding: 16px 22px;
+  border-radius: 22px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(90, 120, 255, 0.25),
+    rgba(160, 90, 255, 0.25)
+  );
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(180, 160, 255, 0.35);
+
+  box-shadow:
+    0 20px 60px rgba(80, 50, 180, 0.45),
+    0 0 40px rgba(120, 90, 255, 0.4);
+
+  z-index: 100;
+  animation: hab-fade-up 0.35s ease;
+}
+
+/* ===============================
+   ENTRY ANIMATION
+================================ */
+
+@keyframes hab-fade-up {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 16px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ===============================
+   INFO
+================================ */
+
+.hab-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hab-count {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #7dd3fc;
+}
+
+.hab-text {
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  opacity: 0.9;
+}
+
+/* ===============================
+   ACTION BUTTONS
+================================ */
+
+.hab-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.hab-btn {
+  padding: 9px 16px;
+  border-radius: 999px;
+
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  border: none;
+  transition: all 0.25s ease;
+}
+
+/* Ghost */
+.hab-btn.ghost {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.hab-btn.ghost:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Danger */
+.hab-btn.danger {
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  color: #0b0614;
+
+  box-shadow: 0 6px 24px rgba(239, 68, 68, 0.45);
+}
+
+.hab-btn.danger:hover {
+  filter: brightness(1.1);
+}
+/* ===============================
+   MOBILE ACTION BAR
+================================ */
+
+@media (max-width: 768px) {
+
+  .history-action-bar {
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .action-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .action-btn {
+    width: 100%;
+  }
+}

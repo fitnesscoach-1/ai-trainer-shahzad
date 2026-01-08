@@ -1,236 +1,346 @@
-/* =========================
-   PAGE BACKGROUND (UPDATED)
-========================= */
-.workout-page {
+/* ===============================
+   BASE PANEL
+================================ */
+
+.ai-workout-generator {
+  max-width: 1100px;
+  margin: auto;
+  padding: 24px;
+  background: rgba(10, 14, 30, 0.92);
+  backdrop-filter: blur(18px);
+  border-radius: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===============================
+   FUTURISTIC BACKGROUND
+================================ */
+
+.ai-bg {
   min-height: 100vh;
-  width: 100vw;
-  padding: 100px 20px;
-  background:
-    linear-gradient(
-      rgba(2, 6, 23, 0.45),
-      rgba(2, 6, 23, 0.65)
-    ),
-    url("../assets/workout.png") center / cover no-repeat fixed;
-  color: #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: "Inter", system-ui, sans-serif;
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* =========================
-   MAIN HEADING
-========================= */
-.workout-page h1 {
-  font-size: 42px;
-  margin-bottom: 6px;
-  background: linear-gradient(90deg, #22d3ee, #22c55e);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
-}
-
-/* =========================
-   SUBTITLE
-========================= */
-.subtitle {
-  font-size: 15px;
-  opacity: 0.9;
-  margin-bottom: 40px;
-  color: #94a3b8;
-}
-
-/* =========================
-   GLASS FORM & RESULT
-========================= */
-.full-bg {
-  width: 100%;
-  max-width: 520px;
-  padding: 30px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  backdrop-filter: blur(14px);
-  box-shadow:
-    0 0 40px rgba(34, 211, 238, 0.15),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  animation: fadeUp 0.6s ease-in-out;
-  color: #e5e7eb;
-  position: relative;
-  z-index: 1;
-}
-
-/* =========================
-   INPUT GROUPS
-========================= */
-.field {
-  display: flex;
-  flex-direction: column;
-}
-
-.field label {
-  font-size: 12px;
-  margin-bottom: 6px;
-  color: #94a3b8;
-  letter-spacing: 0.4px;
-}
-
-/* =========================
-   INPUTS & SELECTS
-========================= */
-.field input,
-.field select {
-  background: rgba(2, 6, 23, 0.9);
-  border: 1px solid rgba(34, 211, 238, 0.25);
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-size: 14px;
-  color: #e5e7eb;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.field input::placeholder {
-  color: #64748b;
-}
-
-.field input:focus,
-.field select:focus {
-  border-color: #22d3ee;
-  box-shadow: 0 0 12px rgba(34, 211, 238, 0.45);
-}
-
-/* =========================
-   ROW LAYOUT
-========================= */
-.field-row {
-  display: flex;
-  gap: 12px;
-}
-
-.field-row .field {
-  flex: 1;
-}
-
-/* =========================
-   FORM BUTTON
-========================= */
-.workout-form button {
-  margin-top: 10px;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  color: #020617;
-  background: linear-gradient(90deg, #22d3ee, #22c55e);
-  transition: all 0.3s ease;
-  box-shadow: 0 0 18px rgba(34, 211, 238, 0.45);
-}
-
-.workout-form button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(34, 211, 238, 0.7);
-}
-
-.workout-form button:active {
-  transform: scale(0.98);
-}
-
-/* =========================
-   RESULT OUTPUT
-========================= */
-.workout-result.full-bg {
-  margin-top: 40px;
-  max-width: 720px;
-  width: 100%;
-  padding: 26px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  backdrop-filter: blur(16px);
-  box-shadow:
-    0 0 30px rgba(34, 197, 94, 0.25),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-  white-space: pre-wrap;
-  font-size: 14px;
-  line-height: 1.7;
-  color: #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 400px;
-}
-
-/* =========================
-   RESULT BUTTONS
-========================= */
-.result-buttons-container {
+  background: radial-gradient(circle at top, #1a2a4f, #050812 70%);
   display: flex;
   justify-content: center;
-  gap: 16px;
-  padding-bottom: 20px;
-  flex-wrap: wrap;
+  padding: 60px 20px;
 }
 
-.result-buttons-container button {
-  padding: 14px 24px;
-  min-height: 48px;
-  font-size: 14px;
-  font-weight: 600;
+/* ===============================
+   NEON OUTER FRAME (🔥 FIXED)
+================================ */
+
+.ai-frame {
+  width: 100%;
+  max-width: 1150px;
+  padding: 2px;
+  border-radius: 26px;
+
+  background: linear-gradient(
+    135deg,
+    #7c5cff,
+    #00e5ff,
+    #ff5ce5
+  );
+
+  /* 🔥 STATIC BASE GLOW */
+  box-shadow:
+    0 0 40px rgba(124, 92, 255, 0.35),
+    0 0 80px rgba(0, 229, 255, 0.15);
+
+  /* 🔥 THIS WAS MISSING */
+  animation: neonPulse 6s ease-in-out infinite;
+}
+
+/* ===============================
+   HEADER
+================================ */
+
+.generator-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 26px;
+}
+
+.generator-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ffffff, #9fdcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.generator-header p {
+  color: #9aa4c7;
+}
+
+/* ===============================
+   LEGACY GRID (KEPT SAFE)
+================================ */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.form-grid input {
+  padding: 12px 14px;
   border-radius: 12px;
+  background: #0b1220;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* ===============================
+   HUD FORM SECTION
+================================ */
+
+.hud-section {
+  margin-bottom: 34px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 20, 45, 0.9),
+    rgba(10, 14, 30, 0.95)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hud-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hud-row:last-child {
+  border-bottom: none;
+}
+
+.hud-row label {
+  color: #9fdcff;
+  font-size: 14px;
+}
+
+.hud-row input,
+.hud-row select {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+}
+
+.hud-row input::placeholder {
+  color: #6f7aa8;
+}
+
+.hud-inline {
+  display: flex;
+  gap: 10px;
+}
+
+.hud-inline select {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+/* ===============================
+   PILL SECTIONS
+================================ */
+
+.pill-section {
+  margin: 26px 0;
+}
+
+.pill-section h3 {
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: linear-gradient(145deg, #0b1226, #0e1733);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cfd6ff;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.25s ease;
+}
+
+.pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 18px rgba(124, 92, 255, 0.45);
+}
+
+.pill.active {
+  background: linear-gradient(135deg, #7c5cff, #00e5ff);
+  color: #ffffff;
+  box-shadow: 0 0 22px rgba(124, 92, 255, 0.8);
+}
+
+/* ===============================
+   TIP LINE
+================================ */
+
+.ai-tip {
+  margin: 24px 0 12px;
+  color: #7c8cff;
+  font-size: 13px;
+}
+
+/* ===============================
+   GENERATE BUTTON
+================================ */
+
+.generate-container {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.generate-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7c5cff, #5a3fff);
+  color: white;
+  font-size: 16px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 18px rgba(34, 211, 238, 0.45);
+  box-shadow: 0 0 40px rgba(124, 92, 255, 0.55);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.result-buttons-container .generate-again {
-  background: linear-gradient(90deg, #22d3ee, #22c55e);
-  color: #020617;
-}
-
-.result-buttons-container .generate-again:hover {
+.generate-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(34, 211, 238, 0.7);
+  box-shadow: 0 0 60px rgba(124, 92, 255, 0.9);
 }
 
-/* =========================
-   ANIMATION
-========================= */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-/* =========================
+/* ===============================
+   ERROR
+================================ */
+
+.error-text {
+  margin-top: 12px;
+  color: #ff6b6b;
+}
+
+/* ===============================
    RESPONSIVE
-========================= */
+================================ */
+
 @media (max-width: 600px) {
-  .workout-page h1 {
-    font-size: 36px;
+  .hud-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* ===============================
+   NEON FRAME PULSE ANIMATION
+================================ */
+
+@keyframes neonPulse {
+  0% {
+    box-shadow:
+      0 0 40px rgba(124, 92, 255, 0.35),
+      0 0 80px rgba(0, 229, 255, 0.15);
   }
 
-  .subtitle {
-    font-size: 14px;
+  50% {
+    box-shadow:
+      0 0 65px rgba(124, 92, 255, 0.65),
+      0 0 140px rgba(255, 92, 229, 0.3);
   }
 
-  .full-bg {
-    padding: 25px;
+  100% {
+    box-shadow:
+      0 0 40px rgba(124, 92, 255, 0.35),
+      0 0 80px rgba(0, 229, 255, 0.15);
   }
+}
 
-  .result-buttons-container {
-    flex-direction: column;
-    gap: 12px;
+/* ===============================
+   ACCESSIBILITY
+================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-frame {
+    animation: none;
   }
+}
+/* ===============================
+   GOAL CARD – NEON + PARALLAX
+================================ */
+
+.goal-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+
+  background: linear-gradient(
+    160deg,
+    #0b1226,
+    #0e1733
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* Soft ambient glow layer */
+.goal-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    transparent,
+    rgba(124, 92, 255, 0.35),
+    rgba(0, 229, 255, 0.25),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+/* ===============================
+   HOVER – PARALLAX EFFECT
+================================ */
+
+.goal-card:hover {
+  transform:
+    perspective(900px)
+    rotateX(3deg)
+    rotateY(-3deg)
+    translateY(-6px);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.45),
+    0 0 35px rgba(124, 92, 255, 0.45);
 }

@@ -1,0 +1,261 @@
+/* ==================================================
+   NAVBAR — AI TRAINER SHAHZAD (FINAL STABLE)
+================================================== */
+
+.navbar {
+  position: fixed;
+  top: 7px;
+  left: 24px;
+  right: 24px;
+  height: 64px;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 40px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(6, 22, 40, 0.96),
+    rgba(12, 40, 75, 0.94)
+  );
+
+  backdrop-filter: blur(22px);
+  border-radius: 18px;
+  border: 1px solid rgba(120, 220, 255, 0.35);
+
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.75),
+    inset 0 0 22px rgba(120, 220, 255, 0.25);
+
+  /* 🔥 CRITICAL: allow mobile menu to escape */
+  overflow: visible;
+
+  font-family: "Inter", "Poppins", system-ui, sans-serif;
+}
+
+/* ==================================================
+   SECTIONS
+================================================== */
+
+.navbar-left,
+.navbar-center,
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-center {
+  gap: 26px;
+}
+
+.navbar-right {
+  gap: 14px;
+}
+
+/* ==================================================
+   ATLAS STATUS (LEFT)
+================================================== */
+
+.atlas-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 6px 14px;
+  border-radius: 999px;
+
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(120, 220, 255, 0.35);
+}
+
+.status-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #eafcff;
+}
+
+.atlas-light {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.atlas-light.online {
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e;
+}
+
+.atlas-light.offline {
+  background: #9ca3af;
+}
+
+/* ==================================================
+   NAV LINKS (CENTER)
+================================================== */
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 16px;
+  border-radius: 999px;
+
+  color: rgba(234, 252, 255, 0.85);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: all 0.25s ease;
+}
+
+.nav-link svg {
+  font-size: 15px;
+  filter: drop-shadow(0 0 6px rgba(120, 220, 255, 0.9));
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background: rgba(120, 220, 255, 0.15);
+  box-shadow: 0 0 22px rgba(120, 220, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+/* ==================================================
+   USER STATUS (USERNAME + GREEN LIGHT)
+================================================== */
+
+.user-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 6px 14px;
+  border-radius: 999px;
+
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(120, 220, 255, 0.35);
+
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #eafcff;
+
+  cursor: default;
+}
+
+.username-text {
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e;
+  animation: onlinePulse 2s infinite ease-in-out;
+}
+
+@keyframes onlinePulse {
+  0% { box-shadow: 0 0 6px #22c55e; }
+  50% { box-shadow: 0 0 14px #22c55e; }
+  100% { box-shadow: 0 0 6px #22c55e; }
+}
+
+/* ==================================================
+   LOGIN / LOGOUT BUTTONS
+================================================== */
+
+.login-btn,
+.logout-btn {
+  padding: 7px 18px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.login-btn {
+  background: rgba(34, 197, 94, 0.18);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  box-shadow: 0 0 14px rgba(34, 197, 94, 0.4);
+}
+
+.login-btn:hover {
+  background: rgba(34, 197, 94, 0.3);
+}
+
+.logout-btn {
+  background: rgba(239, 68, 68, 0.18);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.45);
+}
+
+.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+/* ==================================================
+   HAMBURGER
+================================================== */
+
+.menu-toggle {
+  display: none;
+  font-size: 22px;
+  color: #eafcff;
+  cursor: pointer;
+}
+
+/* ==================================================
+   MOBILE — GUARANTEED WORKING
+================================================== */
+
+@media (max-width: 900px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .navbar {
+    padding: 0 20px;
+  }
+
+  /* 🔥 FLOATING MOBILE MENU */
+  .navbar-center {
+    position: fixed;
+    top: 88px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: calc(100% - 32px);
+    max-width: 420px;
+
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
+
+    background: rgba(6, 22, 40, 0.98);
+    backdrop-filter: blur(22px);
+
+    border-radius: 18px;
+    border: 1px solid rgba(120, 220, 255, 0.3);
+
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85);
+
+    display: none;
+    z-index: 9999;
+  }
+
+  .navbar-center.open {
+    display: flex;
+  }
+}

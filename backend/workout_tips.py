@@ -21,50 +21,15 @@ router = APIRouter(tags=["Workout Tips"])
 # =========================
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# =========================
-# GET WORKOUT TIPS
-# =========================
-@router.get(
-    "/workout-tips",
-    response_model=WorkoutTipsResponse
-)
-def get_workout_tips(
-    regenerate: bool = Query(
-        default=False,
-        description="Force regenerate tips using OpenAI"
-    ),
-    db: Session = Depends(get_db),
-    user=Depends(get_current_user),
-):
+# ======================================================
+# 🔹 INTERNAL HELPER (REUSED — SAFE)
+# ======================================================
+def generate_tips_from_plan(plan: str) -> dict:
     """
-    Generate AI workout tips based on the user's
-    most recently generated workout plan.
-
-    Returns structured tips:
-    - warmup (3 tips)
-    - workout (3 tips)
-    - recovery (3 tips)
+    Generate structured workout tips from a workout plan.
+    Shared by multiple endpoints.
     """
 
-    # =========================
-    # 1️⃣ Fetch latest workout
-    # =========================
-    workout = (
-        db.query(Workout)
-        .filter(Workout.user_id == user.id)
-        .order_by(Workout.created_at.desc())
-        .first()
-    )
-
-    if not workout:
-        raise HTTPException(
-            status_code=404,
-            detail="No workout found. Generate a workout first."
-        )
-
-    # =========================
-    # 2️⃣ Build STRICT AI prompt
-    # =========================
     prompt = f"""
 You are an AI fitness coach.
 
@@ -89,42 +54,104 @@ Output format:
 }}
 
 Workout plan:
-{workout.workout_plan}
+{plan}
 """
 
-    # =========================
-    # 3️⃣ Call OpenAI
-    # =========================
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ],
+        messages=[{"role": "user", "content": prompt}],
         temperature=0.6,
     )
 
-    raw_content = response.choices[0].message.content
+    raw = response.choices[0].message.content
 
-    # =========================
-    # 4️⃣ Parse AI response safely
-    # =========================
     try:
-        data = json.loads(raw_content)
+        return json.loads(raw)
     except json.JSONDecodeError:
         raise HTTPException(
             status_code=500,
             detail="AI response could not be parsed. Please try again."
         )
 
-    # =========================
-    # 5️⃣ Return structured response
-    # =========================
+# ======================================================
+# 1️⃣ GET LATEST WORKOUT TIPS (PRESERVED)
+# ======================================================
+@router.get(
+    "/workout-tips",
+    response_model=WorkoutTipsResponse
+)
+def get_latest_workout_tips(
+    regenerate: bool = Query(
+        default=False,
+        description="Force regenerate tips using OpenAI"
+    ),
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user),
+):
+    """
+    Generate AI workout tips based on the user's
+    most recently generated workout plan.
+    """
+
+    workout = (
+        db.query(Workout)
+        .filter(Workout.user_id == user.id)
+        .order_by(Workout.created_at.desc())
+        .first()
+    )
+
+    if not workout:
+        raise HTTPException(
+            status_code=404,
+            detail="No workout found. Generate a workout first."
+        )
+
+    data = generate_tips_from_plan(workout.workout_plan)
+
     return WorkoutTipsResponse(
         warmup=data.get("warmup", [])[:3],
         workout=data.get("workout", [])[:3],
         recovery=data.get("recovery", [])[:3],
-        created_at=datetime.utcnow()
+        created_at=datetime.utcnow(),
+    )
+
+# ======================================================
+# 2️⃣ GET WORKOUT TIPS BY WORKOUT ID (🔥 REQUIRED BY UI)
+# ======================================================
+@router.get(
+    "/workout-tips/{workout_id}",
+    response_model=WorkoutTipsResponse
+)
+def get_workout_tips_by_workout_id(
+    workout_id: int,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user),
+):
+    """
+    Used by:
+    - WorkoutMemory → View Tips button
+    """
+
+    workout = (
+        db.query(Workout)
+        .filter(
+            Workout.id == workout_id,
+            Workout.user_id == user.id,
+        )
+        .first()
+    )
+
+    if not workout:
+        raise HTTPException(
+            status_code=404,
+            detail="Workout not found"
+        )
+
+    data = generate_tips_from_plan(workout.workout_plan)
+
+    return WorkoutTipsResponse(
+        warmup=data.get("warmup", [])[:3],
+        workout=data.get("workout", [])[:3],
+        recovery=data.get("recovery", [])[:3],
+        created_at=datetime.utcnow(),
     )
