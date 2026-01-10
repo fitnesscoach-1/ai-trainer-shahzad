@@ -32,3 +32,72 @@
     transform: translateY(0);
   }
 }
+/* ===============================
+   IMAGE CENTERING & VISIBILITY FIX
+================================ */
+
+/* Better visual centering for human subjects */
+.workout-card {
+  background-position: center top; /* 🔑 show face & torso */
+}
+
+/* Mobile needs more vertical safety */
+@media (max-width: 700px) {
+  .workout-card {
+    background-position: center 20%;
+  }
+}
+
+/* ===============================
+   CARD CONTENT ALIGNMENT FIX
+================================ */
+
+/* Ensure consistent internal spacing */
+.workout-card-content {
+  padding-bottom: 6px;
+}
+
+/* ===============================
+   BUTTON ALIGNMENT FIX
+================================ */
+
+/* Center buttons horizontally */
+.workout-card button {
+  align-self: center;
+  min-width: 160px;
+  text-align: center;
+}
+
+/* Make buttons consistent across cards */
+.workout-card button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===============================
+   TEXT SAFETY (NO OVERFLOW)
+================================ */
+
+.workout-card h3,
+.workout-card p {
+  max-width: 100%;
+}
+
+/* Optional: prevent long text from pushing layout */
+.workout-card p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===============================
+   MOBILE CARD HEIGHT ADJUST
+================================ */
+
+@media (max-width: 700px) {
+  .workout-card {
+    height: 320px; /* better proportion on phones */
+  }
+}

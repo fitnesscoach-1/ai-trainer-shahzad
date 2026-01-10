@@ -1,17 +1,19 @@
 /* ===============================
-   CARD GRID LAYOUT
+   CARD GRID LAYOUT (UPGRADED)
 ================================ */
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 28px;
   padding: 40px 60px;
+
+  align-items: stretch; /* 🔑 equal-height grid rows */
 }
 
 @media (max-width: 1100px) {
   .card-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -23,7 +25,7 @@
 }
 
 /* ===============================
-   BASE WORKOUT CARD
+   BASE WORKOUT CARD (GRID FIX)
 ================================ */
 
 .workout-card {
@@ -37,15 +39,16 @@
   background-position: center;
   background-repeat: no-repeat;
 
-  display: flex;
-  align-items: flex-end;
-  padding: 24px;
+  /* 🔑 GRID UPGRADE */
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: stretch;
 
+  padding: 24px;
   color: #ffffff;
 
   opacity: 0;
   transform: translateY(28px) scale(0.96);
-
   animation: cardEnter 0.8s ease-out forwards;
 
   transition:
@@ -55,15 +58,9 @@
 }
 
 /* Sequential entry */
-.card-grid > .workout-card:nth-child(1) {
-  animation-delay: 0.15s;
-}
-.card-grid > .workout-card:nth-child(2) {
-  animation-delay: 0.35s;
-}
-.card-grid > .workout-card:nth-child(3) {
-  animation-delay: 0.55s;
-}
+.card-grid > .workout-card:nth-child(1) { animation-delay: 0.15s; }
+.card-grid > .workout-card:nth-child(2) { animation-delay: 0.35s; }
+.card-grid > .workout-card:nth-child(3) { animation-delay: 0.55s; }
 
 /* ===============================
    CARD OVERLAY (READABILITY)
@@ -85,12 +82,17 @@
 }
 
 /* ===============================
-   CARD CONTENT
+   CARD CONTENT (EQUAL HEIGHT FIX)
 ================================ */
 
 .workout-card-content {
   position: relative;
   z-index: 1;
+
+  /* 🔑 GRID CONTENT CONTROL */
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
 }
 
 .workout-card h3 {
@@ -106,11 +108,11 @@
 }
 
 /* ===============================
-   BUTTON
+   BUTTON (LOCKED TO BOTTOM)
 ================================ */
 
 .workout-card button {
-  margin-top: 14px;
+  margin-top: auto; /* 🔥 key equal-height trick */
   padding: 10px 18px;
 
   border: none;
@@ -132,7 +134,7 @@
 }
 
 /* ===============================
-   HOVER + AI GLOW
+   HOVER + AI GLOW (PRESERVED)
 ================================ */
 
 .workout-card:hover {
@@ -191,9 +193,7 @@
 }
 
 @keyframes shimmer {
-  to {
-    background-position-x: -200%;
-  }
+  to { background-position-x: -200%; }
 }
 
 /* ===============================
@@ -266,7 +266,7 @@
 }
 
 /* ===============================
-   KEYFRAMES
+   KEYFRAMES (PRESERVED)
 ================================ */
 
 @keyframes cardEnter {

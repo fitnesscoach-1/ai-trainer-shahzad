@@ -1,346 +1,743 @@
-/* ===============================
-   BASE PANEL
-================================ */
+/* ==================================================
+   GLOBAL BOX MODEL FIX (CRITICAL)
+================================================== */
 
-.ai-workout-generator {
-  max-width: 1100px;
-  margin: auto;
-  padding: 24px;
-  background: rgba(10, 14, 30, 0.92);
-  backdrop-filter: blur(18px);
-  border-radius: 24px;
-  position: relative;
-  z-index: 2;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-/* ===============================
-   FUTURISTIC BACKGROUND
-================================ */
+/* ==================================================
+   ROOT / PAGE BACKGROUND
+================================================== */
 
-.ai-bg {
+.ai-page-wrapper {
   min-height: 100vh;
-  background: radial-gradient(circle at top, #1a2a4f, #050812 70%);
+  background:
+    radial-gradient(circle at center, #0f1225 0%, #050508 100%),
+    url("https://www.transparenttextures.com/patterns/stardust.png");
   display: flex;
   justify-content: center;
-  padding: 60px 20px;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: "Inter", sans-serif;
+  color: #ffffff;
 }
 
-/* ===============================
-   NEON OUTER FRAME (🔥 FIXED)
-================================ */
+/* ==================================================
+   HUD FRAME (OUTER GLOW)
+================================================== */
 
-.ai-frame {
+.hud-container {
   width: 100%;
-  max-width: 1150px;
-  padding: 2px;
-  border-radius: 26px;
+  display: flex;
+  justify-content: center;
+}
+
+.hud-frame {
+  padding: 3px;
+  border-radius: 40px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 242, 255, 0.6),
+    rgba(188, 0, 255, 0.6)
+  );
+  box-shadow:
+    0 0 50px rgba(100, 0, 255, 0.35),
+    inset 0 0 25px rgba(0, 242, 255, 0.25);
+}
+
+.hud-content {
+  background: rgba(10, 11, 20, 0.95);
+  border-radius: 38px;
+  padding: 40px;
+  max-width: 650px;
+  width: 100%;
+}
+
+/* ==================================================
+   AI WORKOUT GENERATOR – HEADER (TOP HUD)
+================================================== */
+
+.hud-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  padding: 24px 28px;
+  margin-bottom: 30px;
+
+  border-radius: 22px;
 
   background: linear-gradient(
     135deg,
-    #7c5cff,
-    #00e5ff,
-    #ff5ce5
+    rgba(0, 242, 255, 0.08),
+    rgba(188, 0, 255, 0.06)
   );
 
-  /* 🔥 STATIC BASE GLOW */
+  border: 1px solid rgba(0, 242, 255, 0.25);
+
   box-shadow:
-    0 0 40px rgba(124, 92, 255, 0.35),
-    0 0 80px rgba(0, 229, 255, 0.15);
-
-  /* 🔥 THIS WAS MISSING */
-  animation: neonPulse 6s ease-in-out infinite;
+    inset 0 0 18px rgba(0, 242, 255, 0.15),
+    0 0 30px rgba(0, 0, 0, 0.5);
 }
 
-/* ===============================
-   HEADER
-================================ */
+/* ==================================================
+   AVATAR WITH GLOW
+================================================== */
 
-.generator-header {
+/* ==================================================
+   AVATAR – GRADIENT RING + CLEAR IMAGE (SAFE)
+================================================== */
+
+/* Avatar container keeps glow */
+.avatar-glow {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  padding: 3px;
+
+  background: linear-gradient(135deg, #00f2ff, #bc00ff);
+
+  box-shadow:
+    0 0 18px rgba(0, 242, 255, 0.8),
+    0 0 30px rgba(188, 0, 255, 0.6);
+
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 26px;
+  align-items: center;
+  justify-content: center;
 }
 
-.generator-header h2 {
-  font-size: 32px;
-  font-weight: 700;
-  background: linear-gradient(90deg, #ffffff, #9fdcff);
+/* Image stays FULLY visible */
+.avatar-glow img {
+  width: 100%;
+  height: 100%;
+
+  border-radius: 50%;
+  object-fit: contain; /* 🔑 KEY FIX */
+
+  background: #0a0b14; /* solid base behind transparent images */
+  display: block;
+}
+
+
+/* ==================================================
+   HEADER TEXT
+================================================== */
+
+.header-text h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 1px;
+
+  background: linear-gradient(90deg, #00f2ff, #bc00ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.generator-header p {
-  color: #9aa4c7;
+.header-text p {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #9aa0b5;
+  letter-spacing: 0.3px;
 }
 
-/* ===============================
-   LEGACY GRID (KEPT SAFE)
-================================ */
+/* ==================================================
+   RESPONSIVE HEADER
+================================================== */
 
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin-bottom: 30px;
+@media (max-width: 768px) {
+  .hud-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 22px;
+  }
+
+  .header-text h1 {
+    font-size: 22px;
+  }
 }
 
-.form-grid input {
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: #0b1220;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #fff;
-}
-
-/* ===============================
-   HUD FORM SECTION
-================================ */
-
-.hud-section {
-  margin-bottom: 34px;
-  border-radius: 18px;
-  overflow: hidden;
-  background: linear-gradient(
-    180deg,
-    rgba(15, 20, 45, 0.9),
-    rgba(10, 14, 30, 0.95)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
+/* ==================================================
+   HUD FORM ROWS
+================================================== */
 
 .hud-row {
-  display: grid;
-  grid-template-columns: 140px 1fr;
+  display: flex;
   align-items: center;
-  padding: 16px 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.hud-row:last-child {
-  border-bottom: none;
+  gap: 14px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 242, 255, 0.06),
+    rgba(188, 0, 255, 0.04)
+  );
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(0, 242, 255, 0.18);
 }
 
 .hud-row label {
-  color: #9fdcff;
-  font-size: 14px;
+  width: 110px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #c9f7ff;
 }
 
-.hud-row input,
-.hud-row select {
+.hud-row input {
+  flex: 1;
   background: transparent;
   border: none;
-  color: #fff;
-  font-size: 15px;
   outline: none;
+  color: #ffffff;
+  font-size: 15px;
 }
 
 .hud-row input::placeholder {
-  color: #6f7aa8;
+  color: #7a7f95;
 }
 
-.hud-inline {
+.row-controls {
   display: flex;
+  align-items: center;
   gap: 10px;
+  flex: 1;
 }
 
-.hud-inline select {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 8px 12px;
-  border-radius: 10px;
+.row-controls select {
+  background: rgba(15, 20, 40, 0.9);
+  border: 1px solid rgba(0, 242, 255, 0.35);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
 }
 
-/* ===============================
-   PILL SECTIONS
-================================ */
+/* ==================================================
+   SECTION TITLES
+================================================== */
 
-.pill-section {
-  margin: 26px 0;
+.section-title {
+  font-size: 15px;
+  margin: 22px 0 12px;
+  color: #9aa0b5;
 }
 
-.pill-section h3 {
-  margin-bottom: 10px;
-  color: #fff;
+/* ==================================================
+   BLOOD GROUP – FINAL POLISHED VERSION
+================================================== */
+
+/* Target ONLY the first pill-grid (Blood Group) */
+.hud-form + .section-title + .pill-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 28px;
 }
 
-.pill-row {
+/* Base pill */
+.hud-form + .section-title + .pill-grid .pill {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 🔥 richer base */
+  background:
+    radial-gradient(circle at top left,
+      rgba(255,255,255,0.08),
+      rgba(20,25,45,0.95)
+    );
+
+  border: 1.5px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  box-sizing: border-box;
+
+  /* subtle idle glow */
+  box-shadow:
+    inset 0 0 10px rgba(255,255,255,0.05),
+    0 0 6px rgba(0,0,0,0.4);
+
+  transition:
+    transform 0.22s cubic-bezier(.4,0,.2,1),
+    box-shadow 0.22s cubic-bezier(.4,0,.2,1),
+    background 0.22s ease;
+}
+
+/* Hover */
+.hud-form + .section-title + .pill-grid .pill:hover {
+  transform: scale(1.1);
+  box-shadow:
+    0 0 12px currentColor,
+    0 0 20px rgba(255,255,255,0.15);
+}
+
+/* Active */
+.hud-form + .section-title + .pill-grid .pill.active {
+  background: currentColor;
+  color: #000;
+  transform: scale(1.14);
+  box-shadow:
+    0 0 18px currentColor,
+    0 0 36px currentColor;
+}
+
+/* ==================================================
+   BLOOD GROUP COLORS (PRESERVED)
+================================================== */
+
+.hud-form + .section-title + .pill-grid .pill:nth-child(1) { color: #ff4d4d; } /* A+ */
+.hud-form + .section-title + .pill-grid .pill:nth-child(2) { color: #ff7a7a; } /* A- */
+.hud-form + .section-title + .pill-grid .pill:nth-child(3) { color: #4da6ff; } /* B+ */
+.hud-form + .section-title + .pill-grid .pill:nth-child(4) { color: #7ab8ff; } /* B- */
+.hud-form + .section-title + .pill-grid .pill:nth-child(5) { color: #a855f7; } /* AB+ */
+.hud-form + .section-title + .pill-grid .pill:nth-child(6) { color: #c084fc; } /* AB- */
+.hud-form + .section-title + .pill-grid .pill:nth-child(7) { color: #22c55e; } /* O+ */
+.hud-form + .section-title + .pill-grid .pill:nth-child(8) { color: #86efac; } /* O- */
+
+/* ==================================================
+   MEDICAL CONDITIONS – READABLE + INTERACTIVE
+================================================== */
+
+.medical-container {
+  margin-top: 28px;
+}
+
+.medical-container .pill-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 16px;
 }
 
-.pill {
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: linear-gradient(145deg, #0b1226, #0e1733);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #cfd6ff;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.25s ease;
-}
-
-.pill:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 18px rgba(124, 92, 255, 0.45);
-}
-
-.pill.active {
-  background: linear-gradient(135deg, #7c5cff, #00e5ff);
-  color: #ffffff;
-  box-shadow: 0 0 22px rgba(124, 92, 255, 0.8);
-}
-
-/* ===============================
-   TIP LINE
-================================ */
-
-.ai-tip {
-  margin: 24px 0 12px;
-  color: #7c8cff;
-  font-size: 13px;
-}
-
-/* ===============================
-   GENERATE BUTTON
-================================ */
-
-.generate-container {
-  margin-top: 26px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.generate-btn {
-  width: 100%;
-  padding: 16px;
+.medical-container .pill {
+  min-width: 150px;
+  padding: 12px 18px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #7c5cff, #5a3fff);
-  color: white;
-  font-size: 16px;
-  border: none;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #cbd5f5;
+
+  background: rgba(20, 25, 45, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
   cursor: pointer;
-  box-shadow: 0 0 40px rgba(124, 92, 255, 0.55);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.generate-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 0 60px rgba(124, 92, 255, 0.9);
-}
-
-.generate-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* ===============================
-   ERROR
-================================ */
-
-.error-text {
-  margin-top: 12px;
-  color: #ff6b6b;
-}
-
-/* ===============================
-   RESPONSIVE
-================================ */
-
-@media (max-width: 600px) {
-  .hud-row {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-}
-
-/* ===============================
-   NEON FRAME PULSE ANIMATION
-================================ */
-
-@keyframes neonPulse {
-  0% {
-    box-shadow:
-      0 0 40px rgba(124, 92, 255, 0.35),
-      0 0 80px rgba(0, 229, 255, 0.15);
-  }
-
-  50% {
-    box-shadow:
-      0 0 65px rgba(124, 92, 255, 0.65),
-      0 0 140px rgba(255, 92, 229, 0.3);
-  }
-
-  100% {
-    box-shadow:
-      0 0 40px rgba(124, 92, 255, 0.35),
-      0 0 80px rgba(0, 229, 255, 0.15);
-  }
-}
-
-/* ===============================
-   ACCESSIBILITY
-================================ */
-
-@media (prefers-reduced-motion: reduce) {
-  .ai-frame {
-    animation: none;
-  }
-}
-/* ===============================
-   GOAL CARD – NEON + PARALLAX
-================================ */
-
-.goal-card {
-  position: relative;
-  border-radius: 18px;
-  overflow: hidden;
-
-  background: linear-gradient(
-    160deg,
-    #0b1226,
-    #0e1733
-  );
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  cursor: pointer;
-
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease,
-    border-color 0.25s ease;
+    background 0.25s ease;
 }
 
-/* Soft ambient glow layer */
-.goal-card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    transparent,
-    rgba(124, 92, 255, 0.35),
-    rgba(0, 229, 255, 0.25),
-    transparent
-  );
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  pointer-events: none;
+/* Hover effect (same family as blood group) */
+.medical-container .pill:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 14px rgba(0, 242, 255, 0.35);
 }
 
+/* Active – readable text ALWAYS */
+.medical-container .pill.active {
+  background: linear-gradient(135deg, #00f2ff, #bc00ff);
+  color: #000;
+  box-shadow:
+    0 0 18px rgba(0, 242, 255, 0.6),
+    0 0 32px rgba(188, 0, 255, 0.4);
+}
+
+/* ==================================================
+   RESPONSIVE SAFETY
+================================================== */
+
+@media (max-width: 768px) {
+  .hud-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hud-row label {
+    width: auto;
+  }
+
+  .section-title + .pill-grid {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .medical-container .pill {
+    width: 100%;
+  }
+}
 /* ===============================
-   HOVER – PARALLAX EFFECT
+   FIX: PREVENT EMPTY GLOW CIRCLES
 ================================ */
 
-.goal-card:hover {
-  transform:
-    perspective(900px)
-    rotateX(3deg)
-    rotateY(-3deg)
-    translateY(-6px);
+/* Only allow glow if pill has text */
+.pill.active:empty {
+  background: rgba(20, 25, 45, 0.9) !important;
+  box-shadow: none !important;
+}
+/* ===============================
+   FIX: CTA BUTTON VISIBILITY
+================================ */
 
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.45),
-    0 0 35px rgba(124, 92, 255, 0.45);
+.generate-btn {
+  margin-top: 32px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-secure {
+  margin-bottom: 20px;
+}
+/* ===============================
+   SECTION SPACING FIX
+================================ */
+
+.section-title {
+  margin-top: 36px;
+}
+
+.hud-form {
+  margin-bottom: 30px;
+}
+
+.medical-container {
+  margin-bottom: 36px;
+}
+/* ==================================================
+   MOBILE & TABLET TRUE CENTER FIX (FINAL)
+================================================== */
+
+@media (max-width: 768px) {
+
+  /* Center ALL content blocks */
+  .hud-content {
+    padding: 24px 16px;
+    box-sizing: border-box;
+  }
+
+  /* Header centered */
+  .hud-header {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .header-text {
+    align-items: center;
+  }
+
+  /* Section titles centered */
+  .section-title {
+    text-align: center;
+  }
+
+  /* Pills grids centered */
+  .pill-grid {
+    justify-content: center !important;
+  }
+
+  /* Medical pills centered */
+  .medical-container .pill-grid {
+    justify-content: center;
+  }
+
+  /* Form rows full width & centered */
+  .hud-row {
+    width: 100%;
+  }
+
+  /* Inputs feel centered */
+  .hud-row input,
+  .row-controls {
+    text-align: left;
+  }
+
+}
+/* ==================================================
+   MOBILE INPUTS + BUTTON – FINAL FIX
+================================================== */
+
+@media (max-width: 768px) {
+
+  /* =====================
+     HUD CONTAINER
+  ====================== */
+  .hud-container {
+    padding: 0;
+  }
+
+  .hud-content {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px 14px;
+  }
+
+  /* =====================
+     FORM ROWS STACKING
+  ====================== */
+  .hud-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .hud-row label {
+    width: 100%;
+    text-align: left;
+    font-size: 12px;
+  }
+
+  /* =====================
+     INPUTS FULL & CLEAN
+  ====================== */
+  .hud-row input {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .row-controls {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .row-controls select {
+    min-width: 72px;
+  }
+
+  /* =====================
+     UNIT CONVERSION TEXT
+  ====================== */
+  .unit-conversion {
+    width: 100%;
+    margin-top: 6px;
+    text-align: right;
+    font-size: 12px;
+    color: #9aa0b5;
+  }
+
+  /* =====================
+     BLOOD GROUP CENTER
+  ====================== */
+  .pill-grid {
+    justify-content: center !important;
+  }
+
+  /* =====================
+     MEDICAL PILLS CENTER
+  ====================== */
+  .medical-container .pill-grid {
+    justify-content: center;
+  }
+
+  .medical-container .pill {
+    min-width: unset;
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+  }
+
+  /* =====================
+     CTA BUTTON – MOBILE
+  ====================== */
+  .generate-btn {
+    width: 100%;
+    max-width: 320px;
+    margin: 28px auto 12px;
+    display: block;
+    text-align: center;
+  }
+
+  /* =====================
+     FOOTER TEXT CENTER
+  ====================== */
+  .footer-secure {
+    text-align: center;
+    font-size: 12px;
+  }
+}
+/* ==================================================
+   FINAL MOBILE CENTERING FIX
+================================================== */
+
+@media (max-width: 768px) {
+
+  /* Make sure HUD content is truly centered */
+  .hud-content {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Keep form constrained and centered */
+  .hud-form {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  /* Center section titles */
+  .section-title {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Center pill grids properly */
+  .pill-grid {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    justify-content: center !important;
+  }
+
+  /* Medical container centering */
+  .medical-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .medical-container .pill-grid {
+    justify-content: center;
+  }
+
+  /* Ensure pills don’t drift */
+  .medical-container .pill {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* CTA button DEAD CENTER */
+  .generate-btn {
+    align-self: center;
+    width: 100%;
+    max-width: 320px;
+  }
+}
+/* ==================================================
+   FINAL MOBILE FIX – FORM FIELDS ALIGNMENT
+================================================== */
+
+@media (max-width: 768px) {
+
+  /* Each row becomes stacked and centered */
+  .hud-row {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+
+  /* Label centered & full width */
+  .hud-row label {
+    width: 100%;
+    margin-bottom: 6px;
+    text-align: left;
+  }
+
+  /* Controls fill width properly */
+  .row-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .row-controls input {
+    width: 100%;
+  }
+
+  .row-controls select {
+    min-width: 80px;
+  }
+
+  /* Single input rows (Name, Height etc.) */
+  .hud-row > input {
+    width: 100%;
+  }
+
+  /* Conversion text stays aligned */
+  .unit-conversion {
+    margin-top: 6px;
+    text-align: right;
+    width: 100%;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+}
+/* ==================================================
+   FINAL MOBILE OVERFLOW FIX – HUD FORM
+================================================== */
+
+@media (max-width: 768px) {
+
+  /* Prevent any horizontal scroll */
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .ai-page-wrapper {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .hud-container,
+  .hud-frame,
+  .hud-content {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Each row fully contained */
+  .hud-row {
+    width: 100%;
+    padding: 14px;
+  }
+
+  /* Stack layout */
+  .hud-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hud-row label {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  /* Inputs never exceed container */
+  .hud-row input,
+  .row-controls,
+  .row-controls input,
+  .row-controls select {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Prevent select pushing layout */
+  .row-controls {
+    gap: 8px;
+  }
+
+  .row-controls select {
+    min-width: unset;
+  }
+
+  /* Unit conversion text */
+  .unit-conversion {
+    width: 100%;
+    text-align: right;
+    font-size: 13px;
+    margin-top: 6px;
+  }
 }

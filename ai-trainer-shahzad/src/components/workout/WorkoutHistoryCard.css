@@ -47,10 +47,11 @@
 ======================= */
 .history-container {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 320px minmax(0, 1fr);
   gap: 22px;
-  height: calc(100vh - 220px);
+  min-height: calc(100vh - 220px);
 }
+
 
 /* =======================
    LEFT LIST
@@ -131,4 +132,32 @@
   padding: 80px;
   font-size: 18px;
   opacity: 0.9;
+}
+/* =======================
+   RESPONSIVE FIX
+======================= */
+
+@media (max-width: 1024px) {
+  .history-container {
+    grid-template-columns: 260px 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .history-page {
+    padding: 16px;
+  }
+
+  .history-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .history-list {
+    max-height: 260px;
+  }
+
+  .history-detail {
+    max-height: none;
+  }
 }

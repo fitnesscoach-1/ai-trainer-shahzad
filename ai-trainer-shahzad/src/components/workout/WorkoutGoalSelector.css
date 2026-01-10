@@ -1,110 +1,223 @@
-/* ===============================
-   WORKOUT GOAL GRID
-================================ */
+/* ==================================================
+   GOAL GRID – MAIN CONTAINER
+================================================== */
 
 .goal-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  margin-top: 16px;
+  gap: 24px;
+  padding: 22px;
+
+  border-radius: 26px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(20, 30, 60, 0.85),
+    rgba(10, 14, 30, 0.95)
+  );
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.06),
+    0 20px 50px rgba(0,0,0,0.45);
 }
 
-/* Responsive */
+/* ==================================================
+   RESPONSIVE GRID
+================================================== */
+
 @media (max-width: 900px) {
   .goal-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* ===============================
-   WORKOUT GOAL CARD
-================================ */
+@media (max-width: 480px) {
+  .goal-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================================================
+   GOAL CARD – BASE
+================================================== */
 
 .goal-card {
   position: relative;
-  background: linear-gradient(145deg, #0b1220, #0e1628);
-  border-radius: 18px;
-  padding: 18px 16px;
-  text-align: center;
-  cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.25s ease;
   overflow: hidden;
+  cursor: pointer;
+
+  padding: 22px 18px;
+  border-radius: 22px;
+  text-align: center;
+
+  background: linear-gradient(
+    145deg,
+    rgba(18, 26, 58, 0.95),
+    rgba(10, 14, 30, 0.98)
+  );
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
-/* Glow layer */
+/* ==================================================
+   GLOW LAYER
+================================================== */
+
 .goal-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 18px;
+  border-radius: inherit;
+
   background: radial-gradient(
     circle at top,
-    rgba(124, 92, 255, 0.25),
-    transparent 60%
+    rgba(124,92,255,0.35),
+    transparent 65%
   );
+
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
 }
 
-/* Hover effect */
+/* ==================================================
+   HOVER STATE
+================================================== */
+
 .goal-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 0 30px rgba(124, 92, 255, 0.25);
+  box-shadow:
+    0 0 35px rgba(124,92,255,0.35),
+    0 0 70px rgba(0,229,255,0.25);
 }
 
 .goal-card:hover::before {
   opacity: 1;
 }
 
-/* Active / Selected */
+/* ==================================================
+   ACTIVE / SELECTED STATE
+================================================== */
+
 .goal-card.active {
-  border-color: #7c5cff;
-  box-shadow: 0 0 35px rgba(124, 92, 255, 0.45);
+  border-color: rgba(124,92,255,0.9);
+  box-shadow:
+    0 0 45px rgba(124,92,255,0.65),
+    0 0 90px rgba(0,229,255,0.45);
 }
 
 .goal-card.active::before {
   opacity: 1;
 }
 
-/* ===============================
-   CARD CONTENT
-================================ */
+/* ==================================================
+   ICON / IMAGE
+================================================== */
 
 .goal-card img {
-  width: 64px;
-  height: 64px;
+  width: 68px;
+  height: 68px;
   object-fit: contain;
-  margin-bottom: 12px;
-  z-index: 1;
+  margin: 0 auto 14px;
+
   position: relative;
+  z-index: 1;
+
+  filter: drop-shadow(0 0 18px rgba(124,92,255,0.6));
 }
+
+/* ==================================================
+   TITLE
+================================================== */
 
 .goal-card h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+
   color: #ffffff;
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  z-index: 1;
+
   position: relative;
+  z-index: 1;
 }
+
+/* ==================================================
+   SUBTITLE
+================================================== */
 
 .goal-card p {
-  color: #9aa4c7;
-  font-size: 12px;
-  z-index: 1;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #9fdcff;
+
   position: relative;
+  z-index: 1;
 }
 
-/* ===============================
-   ACCESSIBILITY / FEEDBACK
-================================ */
+/* ==================================================
+   ACTIVE INDICATOR (SUBTLE)
+================================================== */
+
+.goal-card.active h4 {
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #9fdcff
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==================================================
+   ACCESSIBILITY
+================================================== */
 
 .goal-card:focus-visible {
-  outline: 2px solid #7c5cff;
-  outline-offset: 3px;
+  outline: 2px solid #00e5ff;
+  outline-offset: 4px;
 }
 
 .goal-card:active {
   transform: scale(0.97);
+}
+/* ==================================================
+   CTA BUTTON
+================================================== */
+
+.generate-btn {
+  width: 100%;
+  padding: 18px;
+  border-radius: 16px;
+  border: none;
+
+  background: linear-gradient(90deg, #00f2ff, #bc00ff);
+  color: #ffffff;
+
+  font-weight: 800;
+  font-size: 18px;
+  cursor: pointer;
+
+  box-shadow: 0 10px 25px rgba(0, 242, 255, 0.35);
+  margin-top: 20px;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.generate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(188, 0, 255, 0.45);
+}
+
+.generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }

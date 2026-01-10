@@ -6,7 +6,7 @@
   min-height: 100vh;
   padding-bottom: 60px;
 
-  /* 🔥 AI BACKGROUND IMAGE (VITE PUBLIC PATH — FIXED) */
+  /* 🔥 AI BACKGROUND IMAGE (PRESERVED) */
   background-image:
     linear-gradient(
       rgba(10, 20, 30, 0.85),
@@ -21,16 +21,24 @@
   background-attachment: fixed;
 
   color: #eaf6f6;
+
+  /* ✅ NEW: prevent horizontal overflow */
+  overflow-x: hidden;
 }
 
 /* ===============================
-   SECTION SPACING
+   MAIN CONTENT CONTAINER
 ================================ */
 
-.workout-page > * {
+.workout-container {
   max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+
+  /* ✅ safer padding for all devices */
+  padding-left: 24px;
+  padding-right: 24px;
+
+  box-sizing: border-box;
 }
 
 /* ===============================
@@ -47,6 +55,10 @@
 
 .card-grid {
   margin-top: 20px;
+
+  /* ✅ ensures grid never exceeds container */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ===============================
@@ -58,11 +70,55 @@
 }
 
 /* ===============================
+   TABLET OPTIMIZATION
+================================ */
+
+@media (max-width: 1024px) {
+  .workout-container {
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .progress-summary {
+    margin-top: 60px;
+  }
+}
+
+/* ===============================
    MOBILE OPTIMIZATION
 ================================ */
 
 @media (max-width: 768px) {
   .workout-page {
     background-attachment: scroll;
+  }
+
+  .workout-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .workout-header {
+    margin-bottom: 24px;
+  }
+
+  .card-grid {
+    margin-top: 16px;
+  }
+
+  .progress-summary {
+    margin-top: 48px;
+  }
+}
+
+/* ===============================
+   SMALL MOBILE (SAFE GUARD)
+================================ */
+
+@media (max-width: 480px) {
+  .workout-container {
+    padding-left: 14px;
+    padding-right: 14px;
   }
 }
